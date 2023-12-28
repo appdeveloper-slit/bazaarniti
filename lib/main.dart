@@ -1,11 +1,8 @@
 import 'dart:convert';
-
-import 'package:bazaarniti/pin.dart';
 import 'package:flutter/material.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'bn_home.dart';
 import 'bn_notification.dart';
 import 'conversation.dart';

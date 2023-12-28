@@ -38,6 +38,8 @@ class EpisodeListPage extends State<EpisodeList> {
   GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   Map<String, dynamic> v = {};
   TextEditingController epNameCtrl = TextEditingController();
+  TextEditingController descCtrl = TextEditingController();
+  TextEditingController transCtrl = TextEditingController();
   var _selectIndex;
   String? AudioFile;
 
@@ -111,7 +113,7 @@ class EpisodeListPage extends State<EpisodeList> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: v['episodes'].length,
                 itemBuilder: (context, index) {
-                  return itemEpisode(ctx, v['episodes'][index]);
+                  return itemEpisode(ctx, v['episodes'][index],v);
                 },
               ),
               SizedBox(
@@ -216,6 +218,43 @@ class EpisodeListPage extends State<EpisodeList> {
                     ),
                   ),
                   SizedBox(
+                    height: Dim().d12,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: Dim().d20),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextFormField(
+                        controller: descCtrl,
+                        maxLength: 200,
+                        maxLines: null,
+                        style: Sty().mediumText.copyWith(color: Clr().white),
+                        decoration: Sty().textFieldUnderlineStyle.copyWith(
+                            counterText: '',
+                            hintText: 'Description',
+                            hintStyle: Sty().smallText.copyWith(color: const Color(0xff898989))),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: Dim().d12,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: Dim().d20),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextFormField(
+                        controller: transCtrl,
+                        maxLines: null,
+                        style: Sty().mediumText.copyWith(color: Clr().white),
+                        decoration: Sty().textFieldUnderlineStyle.copyWith(
+                            counterText: '',
+                            hintText: 'Transcript',
+                            hintStyle: Sty().smallText.copyWith(color: const Color(0xff898989))),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
                     height: Dim().d20,
                   ),
                   if (v['languages'].length > 1)
@@ -274,7 +313,8 @@ class EpisodeListPage extends State<EpisodeList> {
                     child: InkWell(
                         onTap: ()async{
                           FilePickerResult? result = await FilePicker.platform.pickFiles(
-                            type: FileType.audio,
+                            type: FileType.custom,
+                            allowedExtensions: ['mp3']
                           );
                           if (result != null) {
                             print(result.files.single.path);
@@ -369,6 +409,8 @@ class EpisodeListPage extends State<EpisodeList> {
     var body = FormData.fromMap({
       'audio': await MultipartFile.fromFile(music, filename: basename(music)),
       'user_id': sID,
+      'description': descCtrl.text,
+      'transcript': transCtrl.text,
       'name': epNameCtrl.text,
       'podcast': v['id'],
       'language': _selectIndex,

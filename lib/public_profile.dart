@@ -602,39 +602,40 @@ class PublicProfilePage extends State<PublicProfile>
                         child: Row(
                           children: [
                             Expanded(
+                              flex: 3,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SizedBox(
                                     height: Dim().d28,
                                   ),
-                                  Row(
+                                  Text(
+                                    '${podcastList[index]['name']}',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Sty().mediumText.copyWith(
+                                      color: Clr().white,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: Dim().d8,
+                                  ),
+                                  Wrap(
+                                    crossAxisAlignment: WrapCrossAlignment.center,
                                     children: [
-                                      Text(
-                                        '${podcastList[index]['name'].toString()}',
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: Sty().mediumText.copyWith(
-                                              color: Clr().white,
-                                            ),
-                                      ),
-                                      SizedBox(width: Dim().d12),
-                                      if (podcastList[index]['episodes']
-                                              .length !=
-                                          0)
-                                        Text(
-                                          '${podcastList[index]['episodes'].length} Episodes',
-                                          style: Sty().smallText.copyWith(
-                                                color: Clr().white,
-                                              ),
+                                      if (podcastList[index]['episodes'].length != 0)
+                                        Text('${podcastList[index]['episodes'].length} Episodes',
+                                          style: Sty().mediumText.copyWith(color: Clr().white),
                                         ),
-                                      SizedBox(width: Dim().d12),
-                                      listOfLanguage(
-                                          podcastList[index]['languages']),
+                                      if (podcastList[index]['episodes'].length != 0)
+                                      SizedBox(
+                                        width: Dim().d12,
+                                      ),
+                                      listOfLanguage(podcastList[index]['languages']),
                                     ],
                                   ),
                                   SizedBox(
-                                    height: Dim().d12,
+                                    height: Dim().d4,
                                   ),
                                   Text('${podcastList[index]['description']}',
                                       maxLines: 2,
@@ -645,7 +646,6 @@ class PublicProfilePage extends State<PublicProfile>
                                 ],
                               ),
                             ),
-                            SizedBox(width: Dim().d12),
                             Icon(Icons.arrow_forward_ios,
                                 size: Dim().d32, color: Clr().white)
                           ],
@@ -871,10 +871,10 @@ listOfLanguage(list) {
     finalList.add(list[a]['name']);
   }
   return Text(
-    finalList.toString().replaceAll('[', '').replaceAll(']', ''),
+    '${finalList.toString().replaceAll('[', '').replaceAll(']', '')}',
     overflow: TextOverflow.ellipsis,
     maxLines: 2,
-    style: Sty().smallText.copyWith(
+    style: Sty().mediumText.copyWith(
           color: Clr().white,
         ),
   );

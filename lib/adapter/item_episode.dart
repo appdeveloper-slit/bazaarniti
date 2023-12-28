@@ -1,3 +1,4 @@
+import 'package:bazaarniti/adapter/playbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
@@ -10,9 +11,11 @@ import '../values/styles.dart';
 late AudioPlayer audioPlayer;
 bool isPlaying = false;
 
-Widget itemEpisode(ctx, v) {
+Widget itemEpisode(ctx, v,details) {
   return InkWell(
-    onTap: () {},
+    onTap: () {
+      STM().redirect2page(ctx, playButton(v: v,details: details,));
+    },
     child: Container(
       decoration: BoxDecoration(
         color: const Color(
@@ -54,13 +57,8 @@ Widget itemEpisode(ctx, v) {
           SizedBox(
             width: Dim().d12,
           ),
-          InkWell(
-            onTap: () async {
-              // await player.play(UrlSource('${v['audio'].toString()}'));
-            },
-            child: SvgPicture.asset(
-              'assets/play.svg',
-            ),
+          SvgPicture.asset(
+            'assets/play.svg',
           ),
         ],
       ),

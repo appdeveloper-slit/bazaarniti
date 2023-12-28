@@ -44,6 +44,8 @@ dependencies:
   dropdown_search: ^5.0.6
   http: ^0.13.5
   audioplayers: ^5.2.1
+  just_audio: ^0.9.36
+  audio_service: ^0.18.12
 
 dev_dependencies:
   flutter_test:
