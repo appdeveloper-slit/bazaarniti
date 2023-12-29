@@ -1,12 +1,16 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:bazaarniti/manager/static_method.dart';
 import 'package:bazaarniti/values/colors.dart';
 import 'package:bazaarniti/values/dimens.dart';
 import 'package:bazaarniti/values/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import 'package:rxdart/rxdart.dart';
 import 'audio_player_buttons.dart';
 import 'seek_bar.dart';
+import 'package:audio_session/audio_session.dart';
 
 class playButton extends StatefulWidget {
   final v, details;
@@ -20,17 +24,40 @@ class playButton extends StatefulWidget {
 class _playButtonState extends State<playButton> {
   AudioPlayer? _audioPlayer;
 
+  Future<void> _init() async {
+    _audioPlayer = AudioPlayer();
+    final session = await AudioSession.instance;
+    await session.configure(const AudioSessionConfiguration.speech());
+    // Listen to errors during playback.
+    _audioPlayer!.playbackEventStream.listen((event) {},
+        onError: (Object e, StackTrace stackTrace) {
+      STM().errorDialog(context, 'A stream error occurred: $e');
+      print('A stream error occurred: $e');
+    });
+    try {
+      await _audioPlayer!.setAudioSource(AudioSource.uri(
+        Uri.parse(widget.v['audio']),
+        tag: MediaItem(
+          playable: true,
+          id: '${widget.details['id']}',
+          album: "${widget.details['name']}",
+          title: "${widget.v['name']}",
+          artUri: Uri.parse(
+              "https://img.freepik.com/free-vector/detailed-podcast-logo-template_23-2148786067.jpg"),
+        ),
+      ));
+    } catch (e, stackTrace) {
+      // Catch load errors: 404, invalid url ...
+      STM().errorDialog(context, "Error loading playlist: $e");
+      print("Error loading playlist: $e");
+      print(stackTrace);
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
-    _audioPlayer = AudioPlayer();
-    _audioPlayer!.setAudioSource(
-      ConcatenatingAudioSource(children: [
-        AudioSource.uri(
-          Uri.parse(widget.v['audio']),
-        )
-      ]),
-    );
+    _init();
     super.initState();
   }
 

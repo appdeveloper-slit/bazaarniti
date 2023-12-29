@@ -3,6 +3,7 @@ import 'package:bazaarniti/values/strings.dart';
 import 'package:dio/dio.dart';
 import 'adapter/item_explore_people.dart';
 import 'adapter/item_explore_tags.dart';
+import 'ban_list.dart';
 import 'values/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -198,7 +199,32 @@ class ExplorePage extends State<Explore> with TickerProviderStateMixin {
       },
       child: Scaffold(
         backgroundColor: Clr().screenBackground,
-        appBar: toolbarBottomNavigation(ctx, 1, 'Explore', b: true),
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Clr().screenBackground,
+          leading: InkWell(onTap: (){
+            STM().finishAffinity(ctx, Home());
+          },child: Icon(Icons.arrow_back,color: Clr().white)),
+          centerTitle: true,
+          title: Text('Explore',style: Sty().mediumText),
+          actions: [
+            Container(
+              margin: EdgeInsets.only(
+                right: Dim().d12,
+              ),
+              child: IconButton(
+                onPressed: () {
+                  STM().redirect2page(ctx, BanList());
+                },
+                padding: EdgeInsets.zero,
+                splashRadius: 24,
+                icon: SvgPicture.asset(
+                  'assets/star.svg',
+                ),
+              ),
+            ),
+          ],
+        ),//toolbarBottomNavigation(ctx, 1, 'Explore', b: true),
         body: bodyLayout(),
         extendBody: true,
         floatingActionButton: FloatingActionButton(
@@ -558,6 +584,19 @@ class ExplorePage extends State<Explore> with TickerProviderStateMixin {
           tagsList = result['hashtags'];
         } else {
           tagsResult = result['users']['message'];
+        }
+        if (peopleList.isNotEmpty) {
+          setState(() {
+            tab2Ctrl!.index = 1;
+          });
+        } else if (tagsList.isNotEmpty) {
+          setState(() {
+            tab2Ctrl!.index = 2;
+          });
+        }else{
+          setState(() {
+            tab2Ctrl!.index = 0;
+          });
         }
         isSearch = true;
       });

@@ -122,12 +122,10 @@ class VerificationPage extends State<Verification> {
           STM().displayToast(message);
           break;
         case "register":
+          sp.setBool('register', true);
           STM().redirect2page(
             ctx,
-            PinSave(
-              widget.sMobile,
-              widget.isChecked,
-            ),
+            PinSave(widget.sMobile,true),
           );
           break;
       }

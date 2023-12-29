@@ -24,7 +24,6 @@ import 'values/styles.dart';
 class EpisodeList extends StatefulWidget {
   final Map<String, dynamic> data;
   final details;
-
   EpisodeList(this.data, {Key? key, this.details}) : super(key: key);
 
   @override
@@ -465,3 +464,4 @@ class EpisodeListPage extends State<EpisodeList> {
     return MultipartFile.fromFile(music, filename: '${basename(music)}.MP3');
   }
 }
+

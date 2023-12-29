@@ -3,10 +3,10 @@ import 'package:bazaarniti/values/dimens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 
 class PlayerButtons extends StatelessWidget {
   PlayerButtons(this._audioPlayer, {Key? key}) : super(key: key);
-
   late AudioPlayer _audioPlayer;
 
   @override
@@ -30,6 +30,8 @@ class PlayerButtons extends StatelessWidget {
               },
             ),
           ),
+          // Expanded(
+          //     child: SvgPicture.asset('assets/arrowbackward.svg',height: Dim().d20,)),
           Expanded(
             child: StreamBuilder<PlayerState>(
               stream: _audioPlayer.playerStateStream,
@@ -39,6 +41,8 @@ class PlayerButtons extends StatelessWidget {
               },
             ),
           ),
+          // Expanded(
+          //     child: SvgPicture.asset('assets/arrowforward.svg',height: Dim().d20,)),
           Expanded(
             child: StreamBuilder<SequenceState?>(
               stream: _audioPlayer.sequenceStateStream,

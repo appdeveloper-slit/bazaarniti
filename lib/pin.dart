@@ -7,6 +7,7 @@ import 'package:bazaarniti/values/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PinSave extends StatefulWidget {
   final String sMobile;
@@ -71,12 +72,8 @@ class _PinSaveState extends State<PinSave> {
                 animationType: AnimationType.scale,
                 cursorColor: Clr().accentColor,
                 pinTheme: PinTheme(
-                  borderRadius: BorderRadius.circular(
-                    Dim().d8,
-                  ),
-                  fieldOuterPadding: EdgeInsets.all(
-                    Dim().d4,
-                  ),
+                  borderRadius: BorderRadius.circular(Dim().d8),
+                  fieldOuterPadding: EdgeInsets.all(Dim().d4),
                   shape: PinCodeFieldShape.box,
                   fieldWidth: Dim().d60,
                   fieldHeight: Dim().d56,
@@ -101,7 +98,8 @@ class _PinSaveState extends State<PinSave> {
               SizedBox(
                 height: Dim().d20,
               ),
-              STM().button('Continue', () {
+              STM().button('Continue', () async {
+                SharedPreferences sp = await SharedPreferences.getInstance();
                 if (pinCtrl.text.isNotEmpty) {
                   STM().finishAffinity(
                     ctx,
