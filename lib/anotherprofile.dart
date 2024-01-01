@@ -472,34 +472,34 @@ class anotherProfilePage extends State<anotherProfile>
     //     ),
     //   ],
     // )
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: Dim().d28),
-      child: ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-              backgroundColor: Clr().yellow,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(Dim().d8)),
-              )),
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: Dim().d12),
-            child: Center(
-              child: Text('CreateSeason',
-                  style: Sty().mediumText.copyWith(
-                      color: Clr().white,
-                      fontWeight: FontWeight.w600,
-                      fontSize: Dim().d16)),
-            ),
-          )),
-    );
-    //   ListView.builder(
-    //   shrinkWrap: true,
-    //   physics: const NeverScrollableScrollPhysics(),
-    //   itemCount: d['podcast'].length,
-    //   itemBuilder: (context, index) {
-    //     return itemProfilePodcast(ctx, d['podcast'][index]);
-    //   },
+    // return Padding(
+    //   padding: EdgeInsets.symmetric(horizontal: Dim().d28),
+    //   child: ElevatedButton(
+    //       onPressed: () {},
+    //       style: ElevatedButton.styleFrom(
+    //           backgroundColor: Clr().yellow,
+    //           shape: RoundedRectangleBorder(
+    //             borderRadius: BorderRadius.all(Radius.circular(Dim().d8)),
+    //           )),
+    //       child: Padding(
+    //         padding: EdgeInsets.symmetric(vertical: Dim().d12),
+    //         child: Center(
+    //           child: Text('CreateSeason',
+    //               style: Sty().mediumText.copyWith(
+    //                   color: Clr().white,
+    //                   fontWeight: FontWeight.w600,
+    //                   fontSize: Dim().d16)),
+    //         ),
+    //       )),
     // );
+      return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: d['podcast'].length,
+      itemBuilder: (context, index) {
+        return itemProfilePodcast(ctx, d['podcast'][index]);
+      },
+    );
   }
 
   void follow(ctx, d, v, setState, sID) async {

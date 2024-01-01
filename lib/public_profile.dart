@@ -169,53 +169,57 @@ class PublicProfilePage extends State<PublicProfile>
                       top: Dim().d16,
                       bottom: Dim().d20,
                     ),
-                    child: Column(
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
                           height: Dim().d16,
                         ),
-                        Stack(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Clr().accentColor,
-                                shape: BoxShape.circle,
-                              ),
-                              padding: EdgeInsets.all(
-                                Dim().d4,
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(
-                                  Dim().d100,
+                        Center(
+                          child: Stack(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Clr().accentColor,
+                                  shape: BoxShape.circle,
                                 ),
-                                child: STM().imageView(
-                                  '${v['image']}',
-                                  width: Dim().d120,
-                                  height: Dim().d120,
+                                padding: EdgeInsets.all(
+                                  Dim().d4,
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(
+                                    Dim().d100,
+                                  ),
+                                  child: STM().imageView(
+                                    '${v['image']}',
+                                    width: Dim().d120,
+                                    height: Dim().d120,
+                                  ),
                                 ),
                               ),
-                            ),
-                            // Positioned(
-                            //     bottom: 2.0,
-                            //     right: 15.0,
-                            //     child: InkWell(
-                            //       onTap: () {
-                            //         STM().redirect2page(
-                            //             ctx, profileEdit(detail: d, data: v));
-                            //       },
-                            //       child: Icon(
-                            //         Icons.add_circle,
-                            //         color: Clr().white,
-                            //       ),
-                            //     )),
-                          ],
+                              // Positioned(
+                              //     bottom: 2.0,
+                              //     right: 15.0,
+                              //     child: InkWell(
+                              //       onTap: () {
+                              //         STM().redirect2page(
+                              //             ctx, profileEdit(detail: d, data: v));
+                              //       },
+                              //       child: Icon(
+                              //         Icons.add_circle,
+                              //         color: Clr().white,
+                              //       ),
+                              //     )),
+                            ],
+                          ),
                         ),
                         SizedBox(
                           height: Dim().d16,
                         ),
-                        Text(
-                          '${v['name']}',
-                          style: Sty().extraLargeText,
+                        Center(
+                          child: Text(
+                            '${v['name']}',
+                            style: Sty().extraLargeText,
+                          ),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,

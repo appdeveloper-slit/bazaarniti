@@ -116,43 +116,43 @@ Widget itemHomeTweet(ctx, v, sID, setState, index) {
                             ),
                           ],
                         ),
-                        SizedBox(
-                          height: Dim().d8,
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            vertical: Dim().d4,
-                            horizontal: Dim().d12,
-                          ),
-                          decoration: BoxDecoration(
-                            color: const Color(
-                              0xFF292929,
-                            ),
-                            borderRadius: BorderRadius.circular(
-                              Dim().d8,
-                            ),
-                          ),
-                          child: Html(
-                            data: '${v['returns']}',
-                            shrinkWrap: true,
-                            style: {
-                              'body': Style(
-                                margin: Margins.zero,
-                                padding: EdgeInsets.zero,
-                                fontFamily: 'Regular',
-                                letterSpacing: 0.5,
-                                color: Clr().white,
-                                fontSize: FontSize(14.0),
-                              ),
-                            },
-                            onLinkTap: (url, context, attrs, element) {
-                              STM().openWeb(url!);
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          height: Dim().d12,
-                        ),
+                        // SizedBox(
+                        //   height: Dim().d8,
+                        // ),
+                        // Container(
+                        //   padding: EdgeInsets.symmetric(
+                        //     vertical: Dim().d4,
+                        //     horizontal: Dim().d12,
+                        //   ),
+                        //   decoration: BoxDecoration(
+                        //     color: const Color(
+                        //       0xFF292929,
+                        //     ),
+                        //     borderRadius: BorderRadius.circular(
+                        //       Dim().d8,
+                        //     ),
+                        //   ),
+                        //   child: Html(
+                        //     data: '${v['returns']}',
+                        //     shrinkWrap: true,
+                        //     style: {
+                        //       'body': Style(
+                        //         margin: Margins.zero,
+                        //         padding: EdgeInsets.zero,
+                        //         fontFamily: 'Regular',
+                        //         letterSpacing: 0.5,
+                        //         color: Clr().white,
+                        //         fontSize: FontSize(14.0),
+                        //       ),
+                        //     },
+                        //     onLinkTap: (url, context, attrs, element) {
+                        //       STM().openWeb(url!);
+                        //     },
+                        //   ),
+                        // ),
+                        // SizedBox(
+                        //   height: Dim().d12,
+                        // ),
                         buildColoredText(v['tweet'], ctx, 'post'),
                         if (v['tweet'].toString().length > 80)
                           TextButton(
@@ -257,7 +257,7 @@ Widget itemHomeTweet(ctx, v, sID, setState, index) {
                                         child: InkWell(
                                           onTap: () {
                                             setState(() {
-                                              selectIndex = index + 1;
+                                              selectIndex = index;
                                             });
                                           },
                                           child: Stack(
