@@ -252,7 +252,7 @@ Widget itemHomeTweet(ctx, v, sID, setState, index) {
                                         ),
                                       ),
                                     ),
-                                    if (v['images'].length > 1)
+                                    if (v['images'].length > 2)
                                       Expanded(
                                         child: InkWell(
                                           onTap: () {
@@ -294,6 +294,52 @@ Widget itemHomeTweet(ctx, v, sID, setState, index) {
                                                 ),
                                             ],
                                           ),
+                                        ),
+                                      ),
+                                    if (v['images'].length == 2)
+                                      Expanded(
+                                        child: Stack(
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                STM().redirect2page(
+                                                    ctx,
+                                                    imagesLayout(
+                                                        vImage: v['images'][1]
+                                                        ['image_path']));
+                                              },
+                                              child: Opacity(
+                                                opacity: v['images'].length > 2
+                                                    ? 0.4
+                                                    : 1,
+                                                child: Container(
+                                                  margin: EdgeInsets.only(
+                                                    left: Dim().d12,
+                                                  ),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                    BorderRadius.circular(
+                                                      Dim().d12,
+                                                    ),
+                                                    child: STM().imageView(
+                                                      '${v['images'][1]['image_path']}',
+                                                      height: Dim().d120,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            // if (v['images'].length > 2)
+                                            //   Positioned(
+                                            //     top: Dim().d48,
+                                            //     left: Dim().d60,
+                                            //     child: Text(
+                                            //       '+${v['images'].length - 2}',
+                                            //       style: Sty().extraLargeText,
+                                            //     ),
+                                            //   ),
+                                          ],
                                         ),
                                       ),
                                   ],

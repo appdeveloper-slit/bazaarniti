@@ -172,13 +172,15 @@ class STM {
             desc: message,
             btnOkText: 'OK',
             btnOkOnPress: () {
-              message == 'The selected user id is invalid.' ? Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => const Login(),
-                ),
-                    (Route<dynamic> route) => false,
-              ) : null;
+              message == 'The selected user id is invalid.'
+                  ? Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => const Login(),
+                      ),
+                      (Route<dynamic> route) => false,
+                    )
+                  : null;
             },
             btnOkColor: Clr().errorRed)
         .show();
@@ -197,18 +199,20 @@ class STM {
             desc: message,
             btnOkText: 'OK',
             btnOkOnPress: () {
-              message == 'The selected user id is invalid.' ? Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => const Login(),
-                ),
-                    (Route<dynamic> route) => false,
-              ) : Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => widget,
-                ),
-              );
+              message == 'The selected user id is invalid.'
+                  ? Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => const Login(),
+                      ),
+                      (Route<dynamic> route) => false,
+                    )
+                  : Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => widget,
+                      ),
+                    );
             },
             btnOkColor: Clr().errorRed)
         .show();
@@ -227,19 +231,21 @@ class STM {
             desc: message,
             btnOkText: 'OK',
             btnOkOnPress: () {
-              message == 'The selected user id is invalid.' ? Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => const Login(),
-                ),
-                    (Route<dynamic> route) => false,
-              ) : Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => widget,
-                ),
-                (Route<dynamic> route) => false,
-              );
+              message == 'The selected user id is invalid.'
+                  ? Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => const Login(),
+                      ),
+                      (Route<dynamic> route) => false,
+                    )
+                  : Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => widget,
+                      ),
+                      (Route<dynamic> route) => false,
+                    );
             },
             btnOkColor: Clr().errorRed)
         .show();
@@ -533,6 +539,67 @@ class STM {
     dynamic result;
     try {
       Response response = await dio.get(url);
+      if (kDebugMode) {
+        print("Url = $url\nResponse = $response");
+      }
+      if (response.statusCode == 200) {
+        result = json.decode(response.data.toString());
+      }
+    } on DioError catch (e) {
+      e.message == 'Http status error [403]'
+          ? STM().finishAffinity(ctx, const Login())
+          : STM().errorDialog(ctx, e.message.toString());
+    }
+    return result;
+  }
+
+  Future<dynamic> getMeF(ctx, name, token) async {
+    Dio dio = Dio(
+      BaseOptions(
+        headers: {
+          "Content-Type": "application/json",
+          "responseType": "ResponseType.plain",
+          "Authorization": "Bearer $token",
+        },
+      ),
+    );
+    String url = AppUrl().mainUrl + name;
+    dynamic result;
+    try {
+      Response response = await dio.get(url);
+      if (kDebugMode) {
+        print("Url = $url\nResponse = $response");
+      }
+      if (response.statusCode == 200) {
+        result = json.decode(response.data.toString());
+      }
+    } on DioError catch (e) {
+      e.message == 'Http status error [403]'
+          ? STM().finishAffinity(ctx, const Login())
+          : STM().errorDialog(ctx, e.message.toString());
+    }
+    return result;
+  }
+
+  Future<dynamic> getGenToken(ctx, body, token) async {
+    Dio dio = Dio(
+      BaseOptions(headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VybmFtZSI6IlJISEExMzE4Iiwicm9sZXMiOjAsInVzZXJ0eXBlIjoiVVNFUiIsInRva2VuIjoiZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnpkV0lpT2lKU1NFaEJNVE14T0NJc0ltVjRjQ0k2TVRjd05ESTVNakkzT1N3aWFXRjBJam94TnpBME1Ua3lNelUzTENKcWRHa2lPaUprWm1aaU4yRTRaQzFqTkRreExUUTJaamd0T1ROaFppMHdOVFU1WVRReE9EQTNaVFVpTENKdmJXNWxiV0Z1WVdkbGNtbGtJam80TENKemIzVnlZMlZwWkNJNklqTWlMQ0oxYzJWeVgzUjVjR1VpT2lKamJHbGxiblFpTENKMGIydGxibDkwZVhCbElqb2lkSEpoWkdWZllXTmpaWE56WDNSdmEyVnVJaXdpWjIxZmFXUWlPamdzSW5OdmRYSmpaU0k2SWpNaUxDSmtaWFpwWTJWZmFXUWlPaUpoTnpKbU1UZzVNaTFqT1RSbUxUTm1ORGN0WWpWak9TMW1OakJrWkRCaU9EY3pNRGNpZlEubGdxU0lCVS05am1JOFcxWFNoV0JfZElVUVVhZllEeU9IY3JWaHE4eUZUR2dVcy1Jb1ZYM3VRdzdXVkh2cXo0UkJnRjFRemkzbFBJYjVCZnY3Y3lkbkEiLCJBUEktS0VZIjoiUmtsa1VYVFEiLCJpYXQiOjE3MDQxOTI0MTcsImV4cCI6MTcwNDI5MjI3OX0.z6VWhvcGI7moFt4ofctuic65sadW90pZmxGCSnspNuorl_R3Mb-b-qZ38TbrCGlH3nzS3pdq7QGUKK3YlsYdZA',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'X-UserType': 'USER',
+        'X-SourceID': 'WEB',
+        'X-ClientLocalIP': "192.168.168.168",
+        'X-ClientPublicIP': "106.193.147.98",
+        'X-MACAddress': "fe80::216e:6507:4b90:3719",
+        'X-PrivateKey': "RklkUXTQ",
+      }),
+    );
+    String url =
+        'https://apiconnect.angelbroking.com/rest/auth/angelbroking/jwt/v1/generateTokens';
+    dynamic result;
+    try {
+      Response response = await dio.post(url, data: body);
       if (kDebugMode) {
         print("Url = $url\nResponse = $response");
       }

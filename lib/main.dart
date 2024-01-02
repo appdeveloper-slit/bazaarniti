@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'bn_home.dart';
 import 'bn_notification.dart';
 import 'conversation.dart';
+import 'demat.dart';
 import 'login.dart';
 import 'message.dart';
 import 'walkthrough.dart';
@@ -116,13 +117,14 @@ Future<void> main() async {
       },
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
-      home: isLogin
-          ? Home(
-              check: true,
-            )
-          : isWalkthrough
-              ? Login()
-              : const Walkthrough(),
+      home: Demat()
+      // isLogin
+      //     ? Home(
+      //         check: true,
+      //       )
+      //     : isWalkthrough
+      //         ? Login()
+      //         : const Walkthrough(),
     ),
   );
 }

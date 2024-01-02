@@ -3,10 +3,13 @@ import 'package:bazaarniti/values/dimens.dart';
 import 'package:bazaarniti/values/styles.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'adapter/item_home_tweet.dart';
 import 'adapter/item_post_detail.dart';
+import 'add_tweet.dart';
 import 'bn_home.dart';
+import 'bottom_navigation/bottom_navigation.dart';
 import 'manager/static_method.dart';
 import 'values/strings.dart';
 
@@ -40,6 +43,17 @@ class _tagdetailsState extends State<tagdetails> {
     ctx = context;
     return Scaffold(
         backgroundColor: Clr().screenBackground,
+        bottomNavigationBar: bottomNavigation(ctx, -1),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            STM().redirect2page(ctx, AddTweet());
+          },
+          backgroundColor: Clr().accentColor,
+          child: SvgPicture.asset(
+            'assets/tweet.svg',
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         appBar: AppBar(
            backgroundColor: Clr().screenBackground,
           elevation: 0,
@@ -48,7 +62,7 @@ class _tagdetailsState extends State<tagdetails> {
                 STM().back2Previous(ctx);
               },
               child: Icon(Icons.arrow_back, color: Clr().white)),
-          title: Text('${widget.details}',
+          title: Text('#${widget.details}',
               style: Sty().mediumText.copyWith(color: Clr().white)),
           centerTitle: true,
         ),
@@ -63,7 +77,7 @@ class _tagdetailsState extends State<tagdetails> {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    return itempostdetail(ctx, tagList[index], sID, setState);
+                    return itempostdetail(ctx, tagList[index], sID, setState,index);
                   },
                 ),
               ],
