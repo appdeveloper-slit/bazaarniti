@@ -271,7 +271,7 @@ class MyProfilePage extends State<MyProfile>
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: bottomNavigation(ctx, -1),
+      bottomNavigationBar: bottomNavigation(ctx, -1,setState),
     );
   }
 

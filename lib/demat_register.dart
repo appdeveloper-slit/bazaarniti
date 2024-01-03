@@ -90,9 +90,9 @@ class DematRegisterPage extends State<DematRegister> {
           ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: resultList.length,
+            itemCount: 1,//resultList.length,
             itemBuilder: (context, index) {
-              return itemDematRegister(ctx, resultList[index]);
+              return itemDematRegister(ctx, resultList[1]);
             },
           ),
           TextButton(

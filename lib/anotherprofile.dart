@@ -400,7 +400,7 @@ class anotherProfilePage extends State<anotherProfile>
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: bottomNavigation(ctx, -1),
+      bottomNavigationBar: bottomNavigation(ctx, -1,setState),
     );
   }
 

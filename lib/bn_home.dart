@@ -3,6 +3,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:bazaarniti/values/styles.dart';
 import 'package:bazaarniti/verifypin.dart';
 import 'package:dio/dio.dart';
+import 'package:bazaarniti/adapter/playbutton.dart';
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -131,7 +132,7 @@ class HomePage extends State<Home> {
             ),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
-            bottomNavigationBar: bottomNavigation(ctx, 0),
+            bottomNavigationBar: bottomNavigation(ctx, 0,setState),
             body: UpgradeAlert(
               upgrader: Upgrader(
                 showLater: !isMandatory,

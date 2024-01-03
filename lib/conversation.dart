@@ -152,7 +152,7 @@ class ConversationPage extends State<Conversation>
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: bottomNavigation(ctx, -1),
+        bottomNavigationBar: bottomNavigation(ctx, -1,setState),
       ),
     );
   }

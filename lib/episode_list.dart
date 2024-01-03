@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:bazaarniti/adapter/playbutton.dart';
 import 'package:bazaarniti/manager/app_url.dart';
 import 'package:http/http.dart' as http;
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -49,6 +50,7 @@ class EpisodeListPage extends State<EpisodeList> {
   @override
   void initState() {
     v = widget.data;
+    audioPlayer.playing ? selectFromPlayButton = true : selectFromPlayButton = false;
     super.initState();
   }
 
@@ -161,7 +163,7 @@ class EpisodeListPage extends State<EpisodeList> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: bottomNavigation(ctx, -1),
+      bottomNavigationBar: bottomNavigation(ctx, -1,setState),
     );
   }
 

@@ -117,14 +117,13 @@ Future<void> main() async {
       },
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
-      home: Demat()
-      // isLogin
-      //     ? Home(
-      //         check: true,
-      //       )
-      //     : isWalkthrough
-      //         ? Login()
-      //         : const Walkthrough(),
+      home: isLogin
+          ? const Home(
+              check: true,
+            )
+          : isWalkthrough
+              ? const Login()
+              : const Walkthrough(),
     ),
   );
 }

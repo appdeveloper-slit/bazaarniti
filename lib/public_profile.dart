@@ -13,6 +13,7 @@ import 'adapter/item_profile_tweet.dart';
 import 'add_tweet.dart';
 import 'bn_home.dart';
 import 'bottom_navigation/bottom_navigation.dart';
+import 'demat_login.dart';
 import 'episode_list.dart';
 import 'follow_list.dart';
 import 'manager/static_method.dart';
@@ -169,7 +170,8 @@ class PublicProfilePage extends State<PublicProfile>
                       top: Dim().d16,
                       bottom: Dim().d20,
                     ),
-                    child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
                           height: Dim().d16,
@@ -503,7 +505,7 @@ class PublicProfilePage extends State<PublicProfile>
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: bottomNavigation(ctx, -1),
+        bottomNavigationBar: bottomNavigation(ctx, -1, setState),
       ),
     );
   }
@@ -534,7 +536,19 @@ class PublicProfilePage extends State<PublicProfile>
 
   //For Portfolio
   Widget portfolioLayout() {
-    return Column();
+    return d['user']['has_demat'] == 0
+        ? ElevatedButton(
+            onPressed: () {
+              STM().redirect2page(ctx, DematLogin());
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: Clr().yellow),
+            child: Center(
+              child: Text('Log In Demat Acc',
+                  style: Sty().smallText.copyWith(color: Clr().white)),
+            ))
+        : Text('your Demat Details Comming soon',
+            textAlign: TextAlign.center,
+            style: Sty().mediumText.copyWith(color: Clr().white));
   }
 
   //For Podcast
@@ -618,24 +632,33 @@ class PublicProfilePage extends State<PublicProfile>
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: Sty().mediumText.copyWith(
-                                      color: Clr().white,
-                                    ),
+                                          color: Clr().white,
+                                        ),
                                   ),
                                   SizedBox(
                                     height: Dim().d8,
                                   ),
                                   Wrap(
-                                    crossAxisAlignment: WrapCrossAlignment.center,
+                                    crossAxisAlignment:
+                                        WrapCrossAlignment.center,
                                     children: [
-                                      if (podcastList[index]['episodes'].length != 0)
-                                        Text('${podcastList[index]['episodes'].length} Episodes',
-                                          style: Sty().mediumText.copyWith(color: Clr().white),
+                                      if (podcastList[index]['episodes']
+                                              .length !=
+                                          0)
+                                        Text(
+                                          '${podcastList[index]['episodes'].length} Episodes',
+                                          style: Sty()
+                                              .mediumText
+                                              .copyWith(color: Clr().white),
                                         ),
-                                      if (podcastList[index]['episodes'].length != 0)
-                                      SizedBox(
-                                        width: Dim().d12,
-                                      ),
-                                      listOfLanguage(podcastList[index]['languages']),
+                                      if (podcastList[index]['episodes']
+                                              .length !=
+                                          0)
+                                        SizedBox(
+                                          width: Dim().d12,
+                                        ),
+                                      listOfLanguage(
+                                          podcastList[index]['languages']),
                                     ],
                                   ),
                                   SizedBox(

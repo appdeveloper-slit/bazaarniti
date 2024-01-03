@@ -95,7 +95,7 @@ class NotificationsPage extends State<Notifications> {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: bottomNavigation(ctx, 3),
+        bottomNavigationBar: bottomNavigation(ctx, 3,setState),
       ),
     );
   }

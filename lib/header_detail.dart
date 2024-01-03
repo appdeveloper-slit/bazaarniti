@@ -225,7 +225,7 @@ class HeaderDetailPage extends State<HeaderDetail>
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: bottomNavigation(ctx, 3),
+      bottomNavigationBar: bottomNavigation(ctx, 3,setState),
     );
   }
 

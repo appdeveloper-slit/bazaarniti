@@ -516,13 +516,17 @@ class STM {
       }
       if (response.statusCode == 200) {
         dialog.dismiss();
-        result = json.decode(response.data.toString());
+        try {
+          result = json.decode(response.data.toString());
+        } catch (_) {
+          result = response.data;
+        }
       }
     } on DioError catch (e) {
       dialog.dismiss();
 
-      e.message == 'Http status error [403]'
-          ? STM().finishAffinity(ctx, const Login())
+       e.message.toString().contains('403')
+          ? STM().errorDialogWithAffinity(ctx, e.message.toString(),const Login())
           : STM().errorDialog(ctx, e.message.toString());
     }
     return result;
@@ -543,11 +547,15 @@ class STM {
         print("Url = $url\nResponse = $response");
       }
       if (response.statusCode == 200) {
-        result = json.decode(response.data.toString());
+        try {
+          result = json.decode(response.data.toString());
+        } catch (_) {
+          result = response.data;
+        }
       }
     } on DioError catch (e) {
-      e.message == 'Http status error [403]'
-          ? STM().finishAffinity(ctx, const Login())
+       e.message.toString().contains('403')
+          ? STM().errorDialogWithAffinity(ctx, e.message.toString(),const Login())
           : STM().errorDialog(ctx, e.message.toString());
     }
     return result;
@@ -571,11 +579,15 @@ class STM {
         print("Url = $url\nResponse = $response");
       }
       if (response.statusCode == 200) {
-        result = json.decode(response.data.toString());
+        try {
+          result = json.decode(response.data.toString());
+        } catch (_) {
+          result = response.data;
+        }
       }
     } on DioError catch (e) {
-      e.message == 'Http status error [403]'
-          ? STM().finishAffinity(ctx, const Login())
+       e.message.toString().contains('403')
+          ? STM().errorDialogWithAffinity(ctx, e.message.toString(),const Login())
           : STM().errorDialog(ctx, e.message.toString());
     }
     return result;
@@ -584,7 +596,8 @@ class STM {
   Future<dynamic> getGenToken(ctx, body, token) async {
     Dio dio = Dio(
       BaseOptions(headers: {
-        'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VybmFtZSI6IlJISEExMzE4Iiwicm9sZXMiOjAsInVzZXJ0eXBlIjoiVVNFUiIsInRva2VuIjoiZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnpkV0lpT2lKU1NFaEJNVE14T0NJc0ltVjRjQ0k2TVRjd05ESTVNakkzT1N3aWFXRjBJam94TnpBME1Ua3lNelUzTENKcWRHa2lPaUprWm1aaU4yRTRaQzFqTkRreExUUTJaamd0T1ROaFppMHdOVFU1WVRReE9EQTNaVFVpTENKdmJXNWxiV0Z1WVdkbGNtbGtJam80TENKemIzVnlZMlZwWkNJNklqTWlMQ0oxYzJWeVgzUjVjR1VpT2lKamJHbGxiblFpTENKMGIydGxibDkwZVhCbElqb2lkSEpoWkdWZllXTmpaWE56WDNSdmEyVnVJaXdpWjIxZmFXUWlPamdzSW5OdmRYSmpaU0k2SWpNaUxDSmtaWFpwWTJWZmFXUWlPaUpoTnpKbU1UZzVNaTFqT1RSbUxUTm1ORGN0WWpWak9TMW1OakJrWkRCaU9EY3pNRGNpZlEubGdxU0lCVS05am1JOFcxWFNoV0JfZElVUVVhZllEeU9IY3JWaHE4eUZUR2dVcy1Jb1ZYM3VRdzdXVkh2cXo0UkJnRjFRemkzbFBJYjVCZnY3Y3lkbkEiLCJBUEktS0VZIjoiUmtsa1VYVFEiLCJpYXQiOjE3MDQxOTI0MTcsImV4cCI6MTcwNDI5MjI3OX0.z6VWhvcGI7moFt4ofctuic65sadW90pZmxGCSnspNuorl_R3Mb-b-qZ38TbrCGlH3nzS3pdq7QGUKK3YlsYdZA',
+        'Authorization':
+            'Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VybmFtZSI6IlJISEExMzE4Iiwicm9sZXMiOjAsInVzZXJ0eXBlIjoiVVNFUiIsInRva2VuIjoiZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnpkV0lpT2lKU1NFaEJNVE14T0NJc0ltVjRjQ0k2TVRjd05ESTVNakkzT1N3aWFXRjBJam94TnpBME1Ua3lNelUzTENKcWRHa2lPaUprWm1aaU4yRTRaQzFqTkRreExUUTJaamd0T1ROaFppMHdOVFU1WVRReE9EQTNaVFVpTENKdmJXNWxiV0Z1WVdkbGNtbGtJam80TENKemIzVnlZMlZwWkNJNklqTWlMQ0oxYzJWeVgzUjVjR1VpT2lKamJHbGxiblFpTENKMGIydGxibDkwZVhCbElqb2lkSEpoWkdWZllXTmpaWE56WDNSdmEyVnVJaXdpWjIxZmFXUWlPamdzSW5OdmRYSmpaU0k2SWpNaUxDSmtaWFpwWTJWZmFXUWlPaUpoTnpKbU1UZzVNaTFqT1RSbUxUTm1ORGN0WWpWak9TMW1OakJrWkRCaU9EY3pNRGNpZlEubGdxU0lCVS05am1JOFcxWFNoV0JfZElVUVVhZllEeU9IY3JWaHE4eUZUR2dVcy1Jb1ZYM3VRdzdXVkh2cXo0UkJnRjFRemkzbFBJYjVCZnY3Y3lkbkEiLCJBUEktS0VZIjoiUmtsa1VYVFEiLCJpYXQiOjE3MDQxOTI0MTcsImV4cCI6MTcwNDI5MjI3OX0.z6VWhvcGI7moFt4ofctuic65sadW90pZmxGCSnspNuorl_R3Mb-b-qZ38TbrCGlH3nzS3pdq7QGUKK3YlsYdZA',
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         'X-UserType': 'USER',
@@ -604,11 +617,15 @@ class STM {
         print("Url = $url\nResponse = $response");
       }
       if (response.statusCode == 200) {
-        result = json.decode(response.data.toString());
+        try {
+          result = json.decode(response.data.toString());
+        } catch (_) {
+          result = response.data;
+        }
       }
     } on DioError catch (e) {
-      e.message == 'Http status error [403]'
-          ? STM().finishAffinity(ctx, const Login())
+       e.message.toString().contains('403')
+          ? STM().errorDialogWithAffinity(ctx, e.message.toString(),const Login())
           : STM().errorDialog(ctx, e.message.toString());
     }
     return result;
@@ -636,13 +653,16 @@ class STM {
       }
       if (response.statusCode == 200) {
         dialog.dismiss();
-        // result = json.decode(response.data.toString());
-        result = response.data;
+        try {
+          result = json.decode(response.data.toString());
+        } catch (_) {
+          result = response.data;
+        }
       }
     } on DioError catch (e) {
       dialog.dismiss();
-      e.message == 'Http status error [403]'
-          ? STM().finishAffinity(ctx, const Login())
+      e.message.toString().contains('403')
+          ? STM().errorDialogWithAffinity(ctx, e.message.toString(),const Login())
           : STM().errorDialog(ctx, e.message.toString());
     }
     return result;
@@ -667,8 +687,8 @@ class STM {
         result = json.decode(response.data.toString());
       }
     } on DioError catch (e) {
-      e.message == 'Http status error [403]'
-          ? STM().finishAffinity(ctx, const Login())
+       e.message.toString().contains('403')
+          ? STM().errorDialogWithAffinity(ctx, e.message.toString(),const Login())
           : STM().errorDialog(ctx, e.message.toString());
     }
     return result;

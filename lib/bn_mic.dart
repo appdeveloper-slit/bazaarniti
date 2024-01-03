@@ -85,7 +85,7 @@ class ExplorePage extends State<Mic> {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: bottomNavigation(ctx, 2),
+        bottomNavigationBar: bottomNavigation(ctx, 2,setState),
       ),
     );
   }

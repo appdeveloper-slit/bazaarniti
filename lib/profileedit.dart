@@ -81,7 +81,7 @@ class _profileEditState extends State<profileEdit> {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: bottomNavigation(ctx, 0),
+        bottomNavigationBar: bottomNavigation(ctx, 0,setState),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: Dim().d20),

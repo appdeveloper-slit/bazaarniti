@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'manager/static_method.dart';
 import 'toolbar/toolbar.dart';
@@ -47,8 +48,8 @@ class DematDetailPage extends State<DematDetail> {
                 TextSpan(
                   text: '${widget.sType}',
                   style: Sty().extraLargeText.copyWith(
-                    color: Clr().accentColor,
-                  ),
+                        color: Clr().accentColor,
+                      ),
                 ),
               ],
             ),
@@ -91,7 +92,11 @@ class DematDetailPage extends State<DematDetail> {
           ),
           STM().button(
             'continue',
-            () {},
+            () async {
+              STM().openWeb(
+                  'https://www.angelone.in/sem/open-demat-account?gclsrc=aw.ds&&utm_campaign=B2C_Search_Brand_Search_Query_Exact_Desktop&utm_source=google&utm_medium=cpc&network=g&keyword=angel%20trading&matchtype=e&creative=538016055573&device=c&devicemodel=&gad_source=1&gclid=CjwKCAiAqNSsBhAvEiwAn_tmxYHopQ0kbUUEZk0OSpucJuskWGIULsXdZeuNtQn8m_9RhZU694IofBoCA5MQAvD_BwE');
+              // SystemNavigator.pop();
+            },
           ),
         ],
       ),

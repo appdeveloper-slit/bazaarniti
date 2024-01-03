@@ -70,7 +70,7 @@ class WatchListPage extends State<WatchList> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: bottomNavigation(ctx, -1),
+      bottomNavigationBar: bottomNavigation(ctx, -1,setState),
     );
   }
 

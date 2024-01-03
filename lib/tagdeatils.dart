@@ -43,7 +43,7 @@ class _tagdetailsState extends State<tagdetails> {
     ctx = context;
     return Scaffold(
         backgroundColor: Clr().screenBackground,
-        bottomNavigationBar: bottomNavigation(ctx, -1),
+        bottomNavigationBar: bottomNavigation(ctx, -1,setState),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             STM().redirect2page(ctx, AddTweet());

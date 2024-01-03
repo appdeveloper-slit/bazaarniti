@@ -118,9 +118,9 @@ class DematLoginPage extends State<DematLogin> {
               crossAxisCount: 2,
               mainAxisExtent: Dim().d120,
             ),
-            itemCount: resultList.length,
+            itemCount: 1,
             itemBuilder: (context, index) {
-              return itemDematLogin(ctx, resultList[index]);
+              return itemDematLogin(ctx, resultList[4]);
             },
           ),
           TextButton(

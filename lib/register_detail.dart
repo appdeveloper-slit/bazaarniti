@@ -75,7 +75,7 @@ class RegisterDetailPage extends State<RegisterDetail> {
       sp.setString('mobile', '${result['user']['mobile']}');
       sp.setString('email', '${result['user']['email']}');
       sp.setString('image', '${result['user']['image']}');
-      // sp.setBool('is_login', true);
+      sp.setBool('is_login', true);
       STM().successDialogWithAffinity(ctx, message, const Demat());
     } else {
       var message = result['message'];
