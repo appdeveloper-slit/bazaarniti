@@ -55,6 +55,7 @@ class PublicProfilePage extends State<PublicProfile>
   List<dynamic> languageList = [];
   List apiLanguageList = [];
   List podcastList = [];
+  List holdingList = [];
   var languageType;
   GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
@@ -76,6 +77,7 @@ class PublicProfilePage extends State<PublicProfile>
           getData();
           getLanguage();
           getPodcast();
+          portifolia();
         }
       });
     });
@@ -546,9 +548,74 @@ class PublicProfilePage extends State<PublicProfile>
               child: Text('Log In Demat Acc',
                   style: Sty().smallText.copyWith(color: Clr().white)),
             ))
-        : Text('your Demat Details Comming soon',
-            textAlign: TextAlign.center,
-            style: Sty().mediumText.copyWith(color: Clr().white));
+        : Column(
+            children: [
+              if (holdingList.isNotEmpty)
+                ListView.builder(
+                  itemCount: holdingList.length,
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: Dim().d12),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (index == 0) textLayout('Holding', Clr().white),
+                                SizedBox(
+                                  height: Dim().d20,
+                                ),
+                                textLayout('${holdingList[index]['tradingsymbol']}',
+                                    Clr().white),
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: Dim().d8),
+                          Expanded(
+                            flex: 2,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (index == 0) textLayout('LTP', Clr().white),
+                                SizedBox(
+                                  height: Dim().d20,
+                                ),
+                                textLayout(
+                                    '₹ ${holdingList[index]['ltp']}',
+                                    holdingList[index]['pnlpercentage']
+                                            .toString()
+                                            .contains('-')
+                                        ? Clr().red
+                                        : Clr().green),
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: Dim().d8),
+                          Expanded(
+                            flex: 1,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (index == 0) textLayout('PnL', Clr().white),
+                                SizedBox(
+                                  height: Dim().d20,
+                                ),
+                                textLayout('P/L : ${holdingList[index]['profitandloss']}',
+                                    Clr().white),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+            ],
+          );
   }
 
   //For Podcast
@@ -873,6 +940,33 @@ class PublicProfilePage extends State<PublicProfile>
     }
   }
 
+  void portifolia() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    FormData body = FormData.fromMap({
+      'user_id': sID,
+    });
+    var result =
+        await STM().postWithoutDialog(ctx, 'angel-one-get-holdings', body);
+    if (result['response_data']['status'] == true) {
+      setState(() {
+        holdingList = result['response_data']['data']['holdings'];
+      });
+    } else {
+      // STM().errorDialog(ctx, result['message']);
+      // Fluttertoast.showToast(
+      //     msg: result['message'],
+      //     fontSize: Dim().d24,
+      //     textColor: Clr().red,
+      //     backgroundColor: Clr().white,
+      //     gravity: ToastGravity.CENTER,
+      //     toastLength: Toast.LENGTH_LONG);
+    }
+  }
+
+  /// text Layout
+  Widget textLayout(data, color) {
+    return Text(data, maxLines: 2,overflow: TextOverflow.ellipsis,style: Sty().smallText.copyWith(color: color));
+  }
 //   var data = {
 //     "user_id": sID,
 //     "name": seasonNameCtrl.text,

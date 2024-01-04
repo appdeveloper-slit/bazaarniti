@@ -87,10 +87,10 @@ class _PlayerButtonsState extends State<PlayerButtons> {
       return InkWell(
         onTap: widget.audioPlayer.play,
         child: Container(
-            // decoration: BoxDecoration(
-            //   color: Clr().yellow,
-            //   shape: BoxShape.circle,
-            // ),
+            decoration: BoxDecoration(
+              color: Clr().yellow,
+              shape: BoxShape.circle,
+            ),
             child: Icon(
           Icons.play_arrow,
           size: Dim().d32,
@@ -99,10 +99,10 @@ class _PlayerButtonsState extends State<PlayerButtons> {
       );
     } else if (processingState != ProcessingState.completed) {
       return Container(
-        // decoration: BoxDecoration(
-        //   color: Clr().yellow,
-        //   shape: BoxShape.circle,
-        // ),
+        decoration: BoxDecoration(
+          color: Clr().yellow,
+          shape: BoxShape.circle,
+        ),
         child: IconButton(
           icon: Icon(
             Icons.pause,

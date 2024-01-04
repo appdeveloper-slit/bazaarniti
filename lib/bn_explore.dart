@@ -3,6 +3,7 @@ import 'package:bazaarniti/values/strings.dart';
 import 'package:dio/dio.dart';
 import 'adapter/item_explore_people.dart';
 import 'adapter/item_explore_tags.dart';
+import 'adapter/item_people_to_follow.dart';
 import 'ban_list.dart';
 import 'values/styles.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,7 @@ class ExplorePage extends State<Explore> with TickerProviderStateMixin {
   ];
   TabController? tabCtrl;
   List<dynamic> resultList = [];
+  List<dynamic> peopletofollow = [];
   List<dynamic> faqList = [];
   List<dynamic> screenerList = [
     {
@@ -301,6 +303,40 @@ class ExplorePage extends State<Explore> with TickerProviderStateMixin {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text(
+          'people to follow',
+          style: Sty().largeText,
+        ),
+        SizedBox(
+          height: Dim().d12,
+        ),
+        SizedBox(
+          height: Dim().d350,
+          child: ListView.separated(
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: peopletofollow.length,
+            itemBuilder: (context, index) {
+              return itemPeopleToFollow(ctx, peopletofollow[index]);
+            },
+            separatorBuilder: (context, index) {
+              return Column(
+                children: [
+                  const Divider(
+                    color: Color(0xFFFFFFFF),
+                  ),
+                  SizedBox(
+                    height: Dim().d12,
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+        SizedBox(
+          height: Dim().d12,
+        ),
         Text(
           'This Week’s Highlights',
           style: Sty().largeText,
@@ -613,6 +649,7 @@ class ExplorePage extends State<Explore> with TickerProviderStateMixin {
     var result = await STM().post(ctx, Str().loading, 'explore-page', body);
     if (result['success'] == true) {
       setState(() {
+        peopletofollow = result['people_to_follow'];
         resultList = result['hightlighted_posts'];
         faqList = result['frequently_asks'];
       });

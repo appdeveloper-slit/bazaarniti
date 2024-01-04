@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../episode_list.dart';
 import '../manager/static_method.dart';
+import '../public_profile.dart';
 import '../values/colors.dart';
 import '../values/dimens.dart';
 import '../values/styles.dart';
@@ -29,48 +30,58 @@ Widget itemProfilePodcast(ctx, v) {
       child: Row(
         children: [
           Expanded(
+            flex: 3,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Text(
+                  '${v['name']}',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Sty().mediumText.copyWith(
+                    color: Clr().white,
+                  ),
+                ),
+                SizedBox(
+                  height: Dim().d8,
+                ),
+                Wrap(
+                  crossAxisAlignment:
+                  WrapCrossAlignment.center,
                   children: [
-                    Text(
-                      '${v['name']}',
-                      style: Sty().largeText.copyWith(
-                            fontWeight: FontWeight.w500,
-                          ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Text(
-                      '${v['episodes']} Episodes',
-                      style: Sty().smallText,
-                    ),
-                    Text(
-                      '${v['language']}',
-                      style: Sty().smallText,
-                    ),
+                    if (v['episodes']
+                        .length !=
+                        0)
+                      Text(
+                        '${v['episodes'].length} Episodes',
+                        style: Sty()
+                            .mediumText
+                            .copyWith(color: Clr().white),
+                      ),
+                    if (v['episodes']
+                        .length !=
+                        0)
+                      SizedBox(
+                        width: Dim().d12,
+                      ),
+                    listOfLanguage(
+                        v['languages']),
                   ],
                 ),
                 SizedBox(
-                  height: Dim().d12,
+                  height: Dim().d4,
                 ),
-                Text(
-                  '${v['description']}',
-                  style: Sty().smallText,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                Text('${v['description']}',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: Sty()
+                        .microText
+                        .copyWith(color: Clr().white)),
               ],
             ),
           ),
-          SizedBox(
-            width: Dim().d12,
-          ),
-          Icon(
-            Icons.navigate_next,
-            size: Dim().d32,
-            color: Clr().white,
-          ),
+          Icon(Icons.arrow_forward_ios,
+              size: Dim().d32, color: Clr().white)
         ],
       ),
     ),

@@ -35,7 +35,7 @@ class anotherProfilePage extends State<anotherProfile>
   bool isLoaded = false;
 
   String? sID;
-
+  List holdingList = [];
   Map<String, dynamic> v = {};
 
   Map<String, dynamic> d = {};
@@ -63,6 +63,7 @@ class anotherProfilePage extends State<anotherProfile>
       STM().checkInternet(context, widget).then((value) {
         if (value) {
           getData();
+          portfoloi();
         }
       });
     });
@@ -82,6 +83,30 @@ class anotherProfilePage extends State<anotherProfile>
       isLoaded = true;
       d = result;
     });
+  }
+
+  /// portfolio
+  void portfoloi() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    FormData body = FormData.fromMap({
+      'user_id': v['id'],
+    });
+    var result =
+        await STM().postWithoutDialog(ctx, 'angel-one-get-holdings', body);
+    if (result['response_data']['status'] == true) {
+      setState(() {
+        holdingList = result['response_data']['data']['holdings'];
+      });
+    } else {
+      // STM().errorDialog(ctx, result['message']);
+      // Fluttertoast.showToast(
+      //     msg: result['message'],
+      //     fontSize: Dim().d24,
+      //     textColor: Clr().red,
+      //     backgroundColor: Clr().white,
+      //     gravity: ToastGravity.CENTER,
+      //     toastLength: Toast.LENGTH_LONG);
+    }
   }
 
   @override
@@ -400,7 +425,7 @@ class anotherProfilePage extends State<anotherProfile>
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: bottomNavigation(ctx, -1,setState),
+      bottomNavigationBar: bottomNavigation(ctx, -1, setState),
     );
   }
 
@@ -411,7 +436,7 @@ class anotherProfilePage extends State<anotherProfile>
       physics: const NeverScrollableScrollPhysics(),
       itemCount: d['post'].length,
       itemBuilder: (context, index) {
-        return itemHomeTweet(ctx, d['post'][index], sID, setState,index);
+        return itemHomeTweet(ctx, d['post'][index], sID, setState, index);
       },
       separatorBuilder: (context, index) {
         return Column(
@@ -430,7 +455,83 @@ class anotherProfilePage extends State<anotherProfile>
 
   //For Portfolio
   Widget portfolioLayout() {
-    return Column();
+    return Column(
+      children: [
+        if (holdingList.isNotEmpty)
+          ListView.builder(
+            itemCount: holdingList.length,
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: EdgeInsets.only(bottom: Dim().d12),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (index == 0) textLayout('Holding', Clr().white),
+                          SizedBox(
+                            height: Dim().d20,
+                          ),
+                          textLayout('${holdingList[index]['tradingsymbol']}',
+                              Clr().white),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: Dim().d8),
+                    Expanded(
+                      flex: 2,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (index == 0) textLayout('LTP', Clr().white),
+                          SizedBox(
+                            height: Dim().d20,
+                          ),
+                          textLayout(
+                              '₹ ${holdingList[index]['ltp']}',
+                              holdingList[index]['pnlpercentage']
+                                      .toString()
+                                      .contains('-')
+                                  ? Clr().red
+                                  : Clr().green),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: Dim().d8),
+                    Expanded(
+                      flex: 1,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (index == 0) textLayout('PnL', Clr().white),
+                          SizedBox(
+                            height: Dim().d20,
+                          ),
+                          textLayout(
+                              'P/L : ${holdingList[index]['profitandloss']}',
+                              Clr().white),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+      ],
+    );
+  }
+
+  /// text Layout
+  Widget textLayout(data, color) {
+    return Text(data,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+        style: Sty().smallText.copyWith(color: color));
   }
 
   //For Podcast
@@ -492,7 +593,7 @@ class anotherProfilePage extends State<anotherProfile>
     //         ),
     //       )),
     // );
-      return ListView.builder(
+    return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: d['podcast'].length,
@@ -509,7 +610,7 @@ class anotherProfilePage extends State<anotherProfile>
       'to_id': v['id'],
     });
     //Output
-    var result = await STM().postWithoutDialog(ctx,"follow", body);
+    var result = await STM().postWithoutDialog(ctx, "follow", body);
     var success = result['success'];
     var message = result['message'];
     if (success) {

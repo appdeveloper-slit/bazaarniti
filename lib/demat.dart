@@ -112,7 +112,6 @@ class DematPage extends State<Demat> {
           TextButton(
             onPressed: () {
               STM().redirect2page(ctx, const DematLogin());
-
             },
             child: Text(
               'I already have a Demat Account',

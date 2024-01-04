@@ -58,94 +58,94 @@ Widget bottomNavigation(ctx, index, setState) {
         //   color: Colors.white,
         // ),
       ),
-      selectFromPlayButton == true
-          ? Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-                color: Clr().black,
-                border: Border(
-                  top: BorderSide(
-                    color: Clr().white,
-                    width: 0.2,
-                  ),
-                  bottom: BorderSide(
-                    color: Clr().white,
-                    width: 0.2,
-                  ),
-                )),
-            child: Row(
-              children: [
-                SizedBox(width: Dim().d12),
-                InkWell(
-                  onTap: (){
-                    STM().redirect2page(
-                        ctx,
-                        playButton(
-                          details: details,
-                          v: musicdetails,
-                        ));
-                  },
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(Dim().d8)),
-                    child: Image.network(
-                      'https://img.freepik.com/free-vector/detailed-podcast-logo-template_23-2148786067.jpg',
-                      height: Dim().d52,
-                      width: Dim().d52,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: Dim().d12,
-                ),
-                Expanded(
-                  child: InkWell(
-                    onTap: (){
-                      STM().redirect2page(
-                          ctx,
-                          playButton(
-                            details: details,
-                            v: musicdetails,
-                          ));
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('${title}',
-                            style: Sty()
-                                .mediumText
-                                .copyWith(color: Clr().white)),
-                        Text('${albumname}',
-                            style: Sty()
-                                .mediumText
-                                .copyWith(color: Clr().white)),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                    width: Dim().d32,
-                    child: PlayerButtons(
-                        audioPlayer: audioPlayer, check: true)),
-                SizedBox(
-                  width: Dim().d16,
-                ),
-                IconButton(
-                    onPressed: () {
-                      setState(() {
-                        audioPlayer.pause();
-                        selectFromPlayButton = false;
-                      });
-                    },
-                    icon: Icon(Icons.stop,
-                        color: Clr().white, size: Dim().d32)),
-                SizedBox(
-                  width: Dim().d32,
-                ),
-              ],
-            ),
-          )
-          : Container(),
+      // selectFromPlayButton == true
+      //     ? Container(
+      //       width: double.infinity,
+      //       decoration: BoxDecoration(
+      //           color: Clr().black,
+      //           border: Border(
+      //             top: BorderSide(
+      //               color: Clr().white,
+      //               width: 0.2,
+      //             ),
+      //             bottom: BorderSide(
+      //               color: Clr().white,
+      //               width: 0.2,
+      //             ),
+      //           )),
+      //       child: Row(
+      //         children: [
+      //           SizedBox(width: Dim().d12),
+      //           InkWell(
+      //             onTap: (){
+      //               STM().redirect2page(
+      //                   ctx,
+      //                   playButton(
+      //                     details: details,
+      //                     v: musicdetails,
+      //                   ));
+      //             },
+      //             child: ClipRRect(
+      //               borderRadius: BorderRadius.all(Radius.circular(Dim().d8)),
+      //               child: Image.network(
+      //                 'https://img.freepik.com/free-vector/detailed-podcast-logo-template_23-2148786067.jpg',
+      //                 height: Dim().d52,
+      //                 width: Dim().d52,
+      //                 fit: BoxFit.cover,
+      //               ),
+      //             ),
+      //           ),
+      //           SizedBox(
+      //             width: Dim().d12,
+      //           ),
+      //           Expanded(
+      //             child: InkWell(
+      //               onTap: (){
+      //                 STM().redirect2page(
+      //                     ctx,
+      //                     playButton(
+      //                       details: details,
+      //                       v: musicdetails,
+      //                     ));
+      //               },
+      //               child: Column(
+      //                 crossAxisAlignment: CrossAxisAlignment.start,
+      //                 children: [
+      //                   Text('${title}',
+      //                       style: Sty()
+      //                           .mediumText
+      //                           .copyWith(color: Clr().white)),
+      //                   Text('${albumname}',
+      //                       style: Sty()
+      //                           .mediumText
+      //                           .copyWith(color: Clr().white)),
+      //                 ],
+      //               ),
+      //             ),
+      //           ),
+      //           SizedBox(
+      //               width: Dim().d32,
+      //               child: PlayerButtons(
+      //                   audioPlayer: audioPlayer, check: true)),
+      //           SizedBox(
+      //             width: Dim().d16,
+      //           ),
+      //           IconButton(
+      //               onPressed: () {
+      //                 setState(() {
+      //                   audioPlayer.pause();
+      //                   selectFromPlayButton = false;
+      //                 });
+      //               },
+      //               icon: Icon(Icons.stop,
+      //                   color: Clr().white, size: Dim().d32)),
+      //           SizedBox(
+      //             width: Dim().d32,
+      //           ),
+      //         ],
+      //       ),
+      //     )
+      //     : Container(),
     ],
   );
 }

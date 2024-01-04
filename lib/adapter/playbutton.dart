@@ -45,8 +45,7 @@ class _playButtonState extends State<playButton> with WidgetsBindingObserver {
           id: '${widget.details['id']}',
           album: "${widget.details['name']}",
           title: "${widget.v['name']}",
-          artUri: Uri.parse(
-              "https://img.freepik.com/free-vector/detailed-podcast-logo-template_23-2148786067.jpg"),
+          artUri: Uri.parse("https://img.freepik.com/free-vector/detailed-podcast-logo-template_23-2148786067.jpg"),
         ),
       ));
       setState(() {

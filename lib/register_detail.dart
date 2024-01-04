@@ -21,7 +21,8 @@ class RegisterDetail extends StatefulWidget {
   final String sMobile;
   final bool isChecked;
   final pinnum;
-  const RegisterDetail(this.sMobile, this.isChecked, this.pinnum,{Key? key})
+
+  const RegisterDetail(this.sMobile, this.isChecked, this.pinnum, {Key? key})
       : super(key: key);
 
   @override
@@ -47,8 +48,6 @@ class RegisterDetailPage extends State<RegisterDetail> {
 
   static StreamController<dynamic> controller =
       StreamController<dynamic>.broadcast();
-
-
 
   //Api method
   void register() async {
@@ -76,7 +75,7 @@ class RegisterDetailPage extends State<RegisterDetail> {
       sp.setString('email', '${result['user']['email']}');
       sp.setString('image', '${result['user']['image']}');
       sp.setBool('is_login', true);
-      STM().successDialogWithAffinity(ctx, message, const Demat());
+      STM().successDialogWithReplace(ctx, message, const Demat());
     } else {
       var message = result['message'];
       STM().errorDialog(ctx, message);
@@ -219,22 +218,26 @@ class RegisterDetailPage extends State<RegisterDetail> {
               'continue',
               () {
                 if (formKey.currentState!.validate()) {
-                  if (isSheet) {
-                    register();
-                  } else {
-                    showModalBottomSheet(
-                      context: ctx,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(
-                            Dim().d20,
+                  if (sUserImg != null) {
+                    if (isSheet) {
+                      register();
+                    } else {
+                      showModalBottomSheet(
+                        context: ctx,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(
+                              Dim().d20,
+                            ),
                           ),
                         ),
-                      ),
-                      builder: (context) {
-                        return dialogDisclaimer(context);
-                      },
-                    );
+                        builder: (context) {
+                          return dialogDisclaimer(context);
+                        },
+                      );
+                    }
+                  } else {
+                    STM().displayToast('Please Select Profile Picture');
                   }
                 }
               },

@@ -87,7 +87,6 @@ class VerificationPage extends State<Verification> {
           secondsRemaining = 60;
         });
       }
-
       STM().successWithButton(ctx, message, function).show();
     } else {
       STM().errorDialog(ctx, message);
@@ -123,7 +122,7 @@ class VerificationPage extends State<Verification> {
           break;
         case "register":
           sp.setBool('register', true);
-          STM().redirect2page(
+          STM().replacePage(
             ctx,
             PinSave(widget.sMobile,true),
           );
