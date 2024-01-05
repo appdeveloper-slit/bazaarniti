@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:timeline_list/timeline.dart';
 import 'package:timeline_list/timeline_model.dart';
 import '../anotherprofile.dart';
@@ -306,7 +307,7 @@ Widget itemHomeTweet(ctx, v, sID, setState, index) {
                                                     ctx,
                                                     imagesLayout(
                                                         vImage: v['images'][1]
-                                                        ['image_path']));
+                                                            ['image_path']));
                                               },
                                               child: Opacity(
                                                 opacity: v['images'].length > 2
@@ -318,7 +319,7 @@ Widget itemHomeTweet(ctx, v, sID, setState, index) {
                                                   ),
                                                   child: ClipRRect(
                                                     borderRadius:
-                                                    BorderRadius.circular(
+                                                        BorderRadius.circular(
                                                       Dim().d12,
                                                     ),
                                                     child: STM().imageView(
@@ -406,7 +407,12 @@ Widget itemHomeTweet(ctx, v, sID, setState, index) {
                               ),
                             ),
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Share.share(
+                                    '*${v['user']['name']}*\n${v['tweet'].toString().replaceRange(30, v['tweet'].toString().length, '......')}\n\n  https://lawmakers.co.in/?id=${v['id']}',
+                                    subject:
+                                        'Click on deep link and go to this page!!!!');
+                              },
                               style: TextButton.styleFrom(
                                 padding: EdgeInsets.zero,
                                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -577,7 +583,11 @@ funt(sentence, regExp, ctx, type) {
             STM().replacePage(
                 ctx,
                 Explore(
-                  name: word.toString().replaceAll('#', '').replaceAll('@', '').replaceAll('.', ''),
+                  name: word
+                      .toString()
+                      .replaceAll('#', '')
+                      .replaceAll('@', '')
+                      .replaceAll('.', ''),
                   type: 'search',
                 ));
           },
@@ -596,7 +606,11 @@ funt(sentence, regExp, ctx, type) {
             STM().replacePage(
                 ctx,
                 Explore(
-                  name: word.toString().replaceAll('@', '').replaceAll('#', '').replaceAll('.', ''),
+                  name: word
+                      .toString()
+                      .replaceAll('@', '')
+                      .replaceAll('#', '')
+                      .replaceAll('.', ''),
                   type: 'search',
                 ));
           },

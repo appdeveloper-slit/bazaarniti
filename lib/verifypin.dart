@@ -13,7 +13,9 @@ import 'values/strings.dart';
 import 'values/styles.dart';
 
 class verifyPin extends StatefulWidget {
-  const verifyPin({super.key});
+  final type;
+
+  const verifyPin({super.key, this.type});
 
   @override
   State<verifyPin> createState() => _verifyPinState();
@@ -143,13 +145,15 @@ class _verifyPinState extends State<verifyPin> {
     //Output
     var result = await STM().post(ctx, Str().loading, "verify-pin", body);
     if (result['success'] == true) {
-      STM().finishAffinity(
-          ctx,
-          Home(
-            check: false,
-          ));
+      widget.type == 'link'
+          ? STM().back2Previous(ctx)
+          : STM().finishAffinity(
+              ctx,
+              Home(
+                check: false,
+              ));
     } else {
-     STM().errorDialog(ctx, result['message']);
+      STM().errorDialog(ctx, result['message']);
     }
   }
 }

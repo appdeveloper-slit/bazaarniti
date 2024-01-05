@@ -193,7 +193,11 @@ class AddTweetPage extends State<AddTweet> {
               STM().button(
                 'Publish',
                 () {
-                  post();
+                 if(tweetCtrl.text.length > 30){
+                   post();
+                 }else{
+                   STM().displayToast('Please write tweet at-least 30 Characters');
+                 }
                 },
                 width: Dim().d100,
                 height: Dim().d40,

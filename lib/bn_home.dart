@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:bazaarniti/adapter/item_post_detail.dart';
+import 'package:bazaarniti/login.dart';
 import 'package:bazaarniti/values/styles.dart';
 import 'package:bazaarniti/verifypin.dart';
 import 'package:dio/dio.dart';
@@ -10,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uni_links/uni_links.dart';
 import 'package:upgrader/upgrader.dart';
 import 'adapter/item_home_header.dart';
 import 'adapter/item_home_tweet.dart';
@@ -17,10 +20,13 @@ import 'add_tweet.dart';
 import 'bottom_navigation/bottom_navigation.dart';
 import 'manager/static_method.dart';
 import 'toolbar/toolbar.dart';
+import 'tweet_detail.dart';
 import 'values/colors.dart';
 import 'values/dimens.dart';
 import 'values/strings.dart';
+
 String? sID;
+
 class Home extends StatefulWidget {
   final check;
 
@@ -64,11 +70,45 @@ class HomePage extends State<Home> {
         'username': sp.getString("user_name"),
         'image': sp.getString("image"),
       };
+      checkLink();
       STM().checkInternet(context, widget).then((value) {
         if (value) {
           getData();
         }
       });
+    });
+  }
+  String? initialLink;
+  /// get data from link
+  void checkLink() async {
+    if (sID != null) {
+      initialLink = await getInitialLink();
+      if(widget.check == true){
+        eventLink(initialLink);
+      }
+      linkStream.listen((String? link) {
+        if(link != null){
+          eventLink(link);
+        }
+      });
+    } else {
+      STM().finishAffinity(ctx, Login());
+    }
+  }
+
+
+
+  void eventLink(link) async {
+    setState(() {
+      var uri = Uri.parse(link);
+      STM().redirect2page(
+          ctx,
+          TweetDetail(
+            {},
+            check: widget.check,
+            type: 'link',
+            id: uri.queryParameters['id'].toString(),
+          ));
     });
   }
 
@@ -132,7 +172,7 @@ class HomePage extends State<Home> {
             ),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
-            bottomNavigationBar: bottomNavigation(ctx, 0,setState),
+            bottomNavigationBar: bottomNavigation(ctx, 0, setState),
             body: UpgradeAlert(
               upgrader: Upgrader(
                 showLater: !isMandatory,
@@ -187,13 +227,14 @@ class HomePage extends State<Home> {
                       ),
                       resultList.isNotEmpty
                           ? Padding(
-                            padding: EdgeInsets.only(bottom: Dim().d12),
-                            child: ListView.separated(
+                              padding: EdgeInsets.only(bottom: Dim().d12),
+                              child: ListView.separated(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemCount: resultList.length,
                                 itemBuilder: (context, index) {
-                                  return itemHomeTweet(ctx, resultList[index], sID, setState,index);
+                                  return itemHomeTweet(ctx, resultList[index],
+                                      sID, setState, index);
                                 },
                                 separatorBuilder: (context, index) {
                                   return Column(
@@ -208,7 +249,7 @@ class HomePage extends State<Home> {
                                   );
                                 },
                               ),
-                          )
+                            )
                           : STM().emptyData(ctx, '$sMessage'),
                     ],
                   ),

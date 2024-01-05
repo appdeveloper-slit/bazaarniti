@@ -17,7 +17,7 @@
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:exported="true"
             android:hardwareAccelerated="true"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:theme="@style/LaunchTheme"
             android:windowSoftInputMode="adjustResize"
             tools:ignore="Instantiatable">
@@ -32,19 +32,46 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <!-- Deep Links -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with YOUR_SCHEME://YOUR_HOST -->
+                <data
+                    android:host="lawmakers.co.in"
+                    android:scheme="https" />
+            </intent-filter>
+
+            <!-- App Links -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with https://YOUR_HOST -->
+                <data
+                    android:host="lawmakers.co.in"
+                    android:scheme="https" />
+            </intent-filter>
         </activity>
         <!-- ADD THIS "SERVICE" element -->
-        <service android:name="com.ryanheise.audioservice.AudioService"
+        <service
+            android:name="com.ryanheise.audioservice.AudioService"
+            android:exported="true"
             android:foregroundServiceType="mediaPlayback"
-            android:exported="true" tools:ignore="Instantiatable">
+            tools:ignore="Instantiatable">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService" />
             </intent-filter>
         </service>
 
         <!-- ADD THIS "RECEIVER" element -->
-        <receiver android:name="com.ryanheise.audioservice.MediaButtonReceiver"
-            android:exported="true" tools:ignore="Instantiatable">
+        <receiver
+            android:name="com.ryanheise.audioservice.MediaButtonReceiver"
+            android:exported="true"
+            tools:ignore="Instantiatable">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>

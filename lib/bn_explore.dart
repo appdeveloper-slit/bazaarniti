@@ -154,7 +154,25 @@ class ExplorePage extends State<Explore> with TickerProviderStateMixin {
   List<dynamic> peopleList = [];
   String? peopleResult, tagsResult;
   List<dynamic> tagsList = [];
+  void follow(id) async {
+    //Input
+    FormData body = FormData.fromMap({
+      'from_id': sID,
+      'to_id': id,
+    });
+    //Output
+    var result = await STM().postWithoutDialog(ctx, "follow", body);
+    var success = result['success'];
+    var message = result['message'];
+    if (success) {
+      setState(() {
 
+      });
+      STM().displayToast(message);
+    } else {
+      STM().errorDialog(ctx, message);
+    }
+  }
   @override
   void initState() {
     getSessionData();
@@ -311,11 +329,11 @@ class ExplorePage extends State<Explore> with TickerProviderStateMixin {
           height: Dim().d12,
         ),
         SizedBox(
-          height: Dim().d350,
+          height: Dim().d200,
           child: ListView.separated(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
-            physics: const NeverScrollableScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             itemCount: peopletofollow.length,
             itemBuilder: (context, index) {
               return itemPeopleToFollow(ctx, peopletofollow[index]);
@@ -327,7 +345,7 @@ class ExplorePage extends State<Explore> with TickerProviderStateMixin {
                     color: Color(0xFFFFFFFF),
                   ),
                   SizedBox(
-                    height: Dim().d12,
+                    width: Dim().d12,
                   ),
                 ],
               );

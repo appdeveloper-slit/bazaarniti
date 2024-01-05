@@ -527,7 +527,7 @@ class STM {
 
        e.message.toString().contains('403')
           ? STM().errorDialogWithAffinity(ctx, e.message.toString(),const Login())
-          : STM().errorDialog(ctx, e.message.toString());
+          : name == 'angel-one-get-holdings'? Container() : STM().errorDialog(ctx, e.message.toString());
     }
     return result;
   }
@@ -556,7 +556,7 @@ class STM {
     } on DioError catch (e) {
        e.message.toString().contains('403')
           ? STM().errorDialogWithAffinity(ctx, e.message.toString(),const Login())
-          : STM().errorDialog(ctx, e.message.toString());
+          : name == 'angel-one-get-holdings'? Container() : STM().errorDialog(ctx, e.message.toString());
     }
     return result;
   }
@@ -588,7 +588,7 @@ class STM {
     } on DioError catch (e) {
        e.message.toString().contains('403')
           ? STM().errorDialogWithAffinity(ctx, e.message.toString(),const Login())
-          : STM().errorDialog(ctx, e.message.toString());
+          : name == 'angel-one-get-holdings'? Container() : STM().errorDialog(ctx, e.message.toString());
     }
     return result;
   }
@@ -663,7 +663,7 @@ class STM {
       dialog.dismiss();
       e.message.toString().contains('403')
           ? STM().errorDialogWithAffinity(ctx, e.message.toString(),const Login())
-          : STM().errorDialog(ctx, e.message.toString());
+          : name == 'angel-one-get-holdings'? Container() :STM().errorDialog(ctx, e.message.toString());
     }
     return result;
   }
@@ -689,7 +689,7 @@ class STM {
     } on DioError catch (e) {
        e.message.toString().contains('403')
           ? STM().errorDialogWithAffinity(ctx, e.message.toString(),const Login())
-          : STM().errorDialog(ctx, e.message.toString());
+          : name == 'angel-one-get-holdings'? Container() : STM().errorDialog(ctx, e.message.toString());
     }
     return result;
   }

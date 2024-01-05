@@ -539,15 +539,18 @@ class PublicProfilePage extends State<PublicProfile>
   //For Portfolio
   Widget portfolioLayout() {
     return d['user']['has_demat'] == 0
-        ? ElevatedButton(
-            onPressed: () {
-              STM().redirect2page(ctx, DematLogin());
-            },
-            style: ElevatedButton.styleFrom(backgroundColor: Clr().yellow),
-            child: Center(
-              child: Text('Log In Demat Acc',
-                  style: Sty().smallText.copyWith(color: Clr().white)),
-            ))
+        ? Padding(
+            padding: EdgeInsets.only(bottom: Dim().d100),
+            child: ElevatedButton(
+                onPressed: () {
+                  STM().redirect2page(ctx, DematLogin());
+                },
+                style: ElevatedButton.styleFrom(backgroundColor: Clr().yellow),
+                child: Center(
+                  child: Text('Log In Demat Acc',
+                      style: Sty().smallText.copyWith(color: Clr().white)),
+                )),
+          )
         : Column(
             children: [
               if (holdingList.isNotEmpty)
@@ -565,11 +568,13 @@ class PublicProfilePage extends State<PublicProfile>
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                if (index == 0) textLayout('Holding', Clr().white),
+                                if (index == 0)
+                                  textLayout('Holding', Clr().white),
                                 SizedBox(
                                   height: Dim().d20,
                                 ),
-                                textLayout('${holdingList[index]['tradingsymbol']}',
+                                textLayout(
+                                    '${holdingList[index]['tradingsymbol']}',
                                     Clr().white),
                               ],
                             ),
@@ -604,7 +609,8 @@ class PublicProfilePage extends State<PublicProfile>
                                 SizedBox(
                                   height: Dim().d20,
                                 ),
-                                textLayout('P/L : ${holdingList[index]['profitandloss']}',
+                                textLayout(
+                                    'P/L : ${holdingList[index]['profitandloss']}',
                                     Clr().white),
                               ],
                             ),
@@ -965,7 +971,10 @@ class PublicProfilePage extends State<PublicProfile>
 
   /// text Layout
   Widget textLayout(data, color) {
-    return Text(data, maxLines: 2,overflow: TextOverflow.ellipsis,style: Sty().smallText.copyWith(color: color));
+    return Text(data,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+        style: Sty().smallText.copyWith(color: color));
   }
 //   var data = {
 //     "user_id": sID,

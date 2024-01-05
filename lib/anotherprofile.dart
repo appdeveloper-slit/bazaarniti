@@ -522,6 +522,12 @@ class anotherProfilePage extends State<anotherProfile>
               );
             },
           ),
+        if (holdingList.isEmpty)
+          Padding(
+            padding: EdgeInsets.only(bottom: Dim().d100),
+            child: Text('No Portfolio Data',
+                style: Sty().mediumText.copyWith(color: Clr().white)),
+          ),
       ],
     );
   }
