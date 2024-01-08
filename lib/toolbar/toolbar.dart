@@ -1,5 +1,7 @@
 import 'package:bazaarniti/login.dart';
 import 'package:bazaarniti/profileedit.dart';
+import 'package:bazaarniti/values/strings.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -126,13 +128,29 @@ PreferredSizeWidget toolbarHeader() {
   );
 }
 
-PreferredSizeWidget toolbarProfile(ctx,title) {
+void logoutDematAcc(clentid, ctx) async {
+  FormData body = FormData.fromMap({
+    'clientcode': clentid,
+    'user_id': sID,
+  });
+  var result = await STM().post(ctx, Str().logout, 'angel-one-logout', body);
+  if (result['response_data']['status'] == true) {
+    STM().successDialog(ctx, 'Demat Account Logout Successfully', Home());
+  }
+}
+
+PreferredSizeWidget toolbarProfile(ctx, title, {logout, clentid}) {
   return AppBar(
     backgroundColor: Colors.transparent,
     elevation: 0,
-    leading: InkWell(onTap: (){
-      STM().finishAffinity(ctx, Home());
-    },child: Icon(Icons.arrow_back,color: Clr().white,)),
+    leading: InkWell(
+        onTap: () {
+          STM().finishAffinity(ctx, Home());
+        },
+        child: Icon(
+          Icons.arrow_back,
+          color: Clr().white,
+        )),
     iconTheme: IconThemeData(
       color: Clr().white,
     ),
@@ -151,38 +169,34 @@ PreferredSizeWidget toolbarProfile(ctx,title) {
       //   ),
       // ),
       PopupMenuButton<String>(
-        onSelected: (value) async{
+        onSelected: (value) async {
           SharedPreferences sp = await SharedPreferences.getInstance();
-          sp.clear();
-          value == 'option_1' ? STM().finishAffinity(ctx, Login()) : null;
+          if (value == 'option_1') {
+            sp.clear();
+            STM().finishAffinity(ctx, Login());
+          }
+          if (value == 'option_2') {
+            logoutDematAcc(clentid, ctx);
+          }
         },
         itemBuilder: (BuildContext context) {
           return <PopupMenuEntry<String>>[
-            PopupMenuItem<String>(
+            const PopupMenuItem<String>(
               value: 'option_1',
               child: Text('Logout'),
             ),
-            // PopupMenuItem<String>(
-            //   value: 'option_2',
-            //   child: Text('Option 2'),
-            // ),
-            // PopupMenuItem<String>(
-            //   value: 'option_3',
-            //   child: Text('Option 3'),
-            // ),
+            logout == true
+                ? const PopupMenuItem<String>(
+                    value: 'option_2',
+                    child: Text('Logout Demat'),
+                  )
+                : const PopupMenuItem<String>(
+                    value: '',
+                    child: Text(''),
+                  ),
           ];
         },
       ),
-      // IconButton(
-      //   onPressed: () {
-      //
-      //   },
-      //   padding: EdgeInsets.zero,
-      //   splashRadius: 24,
-      //   icon: SvgPicture.asset(
-      //     'assets/more.svg',
-      //   ),
-      // ),
     ],
   );
 }
@@ -220,13 +234,18 @@ PreferredSizeWidget toolbarAnotherProfile(title) {
   );
 }
 
-PreferredSizeWidget commonAppBar(title,ctx,data){
+PreferredSizeWidget commonAppBar(title, ctx, data) {
   return AppBar(
     backgroundColor: Colors.transparent,
     elevation: 0,
-    leading: InkWell(onTap: (){
-      STM().replacePage(ctx, PublicProfile(data));
-    },child: Icon(Icons.arrow_back,color: Clr().white,)),
+    leading: InkWell(
+        onTap: () {
+          STM().replacePage(ctx, PublicProfile(data));
+        },
+        child: Icon(
+          Icons.arrow_back,
+          color: Clr().white,
+        )),
     iconTheme: IconThemeData(
       color: Clr().white,
     ),

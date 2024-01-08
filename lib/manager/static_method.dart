@@ -525,9 +525,12 @@ class STM {
     } on DioError catch (e) {
       dialog.dismiss();
 
-       e.message.toString().contains('403')
-          ? STM().errorDialogWithAffinity(ctx, e.message.toString(),const Login())
-          : name == 'angel-one-get-holdings'? Container() : STM().errorDialog(ctx, e.message.toString());
+      e.message.toString().contains('403')
+          ? STM()
+              .errorDialogWithAffinity(ctx, e.message.toString(), const Login())
+          : name == 'angel-one-get-holdings'
+              ? Container()
+              : STM().errorDialog(ctx, e.message.toString());
     }
     return result;
   }
@@ -554,9 +557,12 @@ class STM {
         }
       }
     } on DioError catch (e) {
-       e.message.toString().contains('403')
-          ? STM().errorDialogWithAffinity(ctx, e.message.toString(),const Login())
-          : name == 'angel-one-get-holdings'? Container() : STM().errorDialog(ctx, e.message.toString());
+      e.message.toString().contains('403')
+          ? STM()
+              .errorDialogWithAffinity(ctx, e.message.toString(), const Login())
+          : name == 'angel-one-get-holdings'
+              ? Container()
+              : STM().errorDialog(ctx, e.message.toString());
     }
     return result;
   }
@@ -586,9 +592,12 @@ class STM {
         }
       }
     } on DioError catch (e) {
-       e.message.toString().contains('403')
-          ? STM().errorDialogWithAffinity(ctx, e.message.toString(),const Login())
-          : name == 'angel-one-get-holdings'? Container() : STM().errorDialog(ctx, e.message.toString());
+      e.message.toString().contains('403')
+          ? STM()
+              .errorDialogWithAffinity(ctx, e.message.toString(), const Login())
+          : name == 'angel-one-get-holdings'
+              ? Container()
+              : STM().errorDialog(ctx, e.message.toString());
     }
     return result;
   }
@@ -624,8 +633,9 @@ class STM {
         }
       }
     } on DioError catch (e) {
-       e.message.toString().contains('403')
-          ? STM().errorDialogWithAffinity(ctx, e.message.toString(),const Login())
+      e.message.toString().contains('403')
+          ? STM()
+              .errorDialogWithAffinity(ctx, e.message.toString(), const Login())
           : STM().errorDialog(ctx, e.message.toString());
     }
     return result;
@@ -662,8 +672,11 @@ class STM {
     } on DioError catch (e) {
       dialog.dismiss();
       e.message.toString().contains('403')
-          ? STM().errorDialogWithAffinity(ctx, e.message.toString(),const Login())
-          : name == 'angel-one-get-holdings'? Container() :STM().errorDialog(ctx, e.message.toString());
+          ? STM()
+              .errorDialogWithAffinity(ctx, e.message.toString(), const Login())
+          : name == 'angel-one-get-holdings'
+              ? Container()
+              : STM().errorDialog(ctx, e.message.toString());
     }
     return result;
   }
@@ -687,9 +700,12 @@ class STM {
         result = json.decode(response.data.toString());
       }
     } on DioError catch (e) {
-       e.message.toString().contains('403')
-          ? STM().errorDialogWithAffinity(ctx, e.message.toString(),const Login())
-          : name == 'angel-one-get-holdings'? Container() : STM().errorDialog(ctx, e.message.toString());
+      e.message.toString().contains('403')
+          ? STM()
+              .errorDialogWithAffinity(ctx, e.message.toString(), const Login())
+          : name == 'angel-one-get-holdings' || name == 'angel-one-get-profile'
+              ? Container()
+              : STM().errorDialog(ctx, e.message.toString());
     }
     return result;
   }

@@ -21,6 +21,7 @@ class Str {
   String verifying = "Verifying …";
   String uploading = "Uploading …";
   String loading = "Loading …";
+  String logout = "Logout …";
   String updating = "Updating …";
   String processing = "Processing …";
   String requesting = "Requesting …";

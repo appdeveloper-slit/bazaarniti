@@ -58,6 +58,8 @@ class PublicProfilePage extends State<PublicProfile>
   List holdingList = [];
   var languageType;
   GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  String? clientId;
+  bool? checkLogout;
 
   @override
   void initState() {
@@ -78,6 +80,7 @@ class PublicProfilePage extends State<PublicProfile>
           getLanguage();
           getPodcast();
           portifolia();
+          getProfileDemat();
         }
       });
     });
@@ -160,7 +163,8 @@ class PublicProfilePage extends State<PublicProfile>
       },
       child: Scaffold(
         backgroundColor: Clr().screenBackground,
-        appBar: toolbarProfile(ctx, '${v['name']}'),
+        appBar: toolbarProfile(ctx, '${v['name']}',
+            logout: checkLogout, clentid: clientId),
         body: !isLoaded
             ? Container()
             : SingleChildScrollView(
@@ -175,9 +179,6 @@ class PublicProfilePage extends State<PublicProfile>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          height: Dim().d16,
-                        ),
                         Center(
                           child: Stack(
                             children: [
@@ -195,8 +196,8 @@ class PublicProfilePage extends State<PublicProfile>
                                   ),
                                   child: STM().imageView(
                                     '${v['image']}',
-                                    width: Dim().d120,
-                                    height: Dim().d120,
+                                    width: Dim().d100,
+                                    height: Dim().d100,
                                   ),
                                 ),
                               ),
@@ -222,7 +223,7 @@ class PublicProfilePage extends State<PublicProfile>
                         Center(
                           child: Text(
                             '${v['name']}',
-                            style: Sty().extraLargeText,
+                            style: Sty().mediumBoldText,
                           ),
                         ),
                         Row(
@@ -230,7 +231,7 @@ class PublicProfilePage extends State<PublicProfile>
                           children: [
                             Text(
                               '@${v['username']}',
-                              style: Sty().mediumBoldText,
+                              style: Sty().smallText,
                             ),
                             SizedBox(width: Dim().d8),
                             InkWell(
@@ -239,11 +240,11 @@ class PublicProfilePage extends State<PublicProfile>
                                       ctx, profileEdit(detail: d, data: v));
                                 },
                                 child: SvgPicture.asset('assets/editpencil.svg',
-                                    height: Dim().d20))
+                                    height: Dim().d16))
                           ],
                         ),
                         SizedBox(
-                          height: Dim().d16,
+                          height: Dim().d12,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -253,7 +254,7 @@ class PublicProfilePage extends State<PublicProfile>
                               textAlign: TextAlign.center,
                               text: TextSpan(
                                 text: '${d['posts']}\n',
-                                style: Sty().extraLargeText,
+                                style: Sty().mediumBoldText,
                                 children: [
                                   TextSpan(
                                     text: 'Posts',
@@ -280,7 +281,7 @@ class PublicProfilePage extends State<PublicProfile>
                                 textAlign: TextAlign.center,
                                 text: TextSpan(
                                   text: '${d['followers']}\n',
-                                  style: Sty().extraLargeText,
+                                  style: Sty().mediumBoldText,
                                   children: [
                                     TextSpan(
                                       text: 'Followers',
@@ -307,7 +308,7 @@ class PublicProfilePage extends State<PublicProfile>
                                 textAlign: TextAlign.center,
                                 text: TextSpan(
                                   text: '${d['following']}\n',
-                                  style: Sty().extraLargeText,
+                                  style: Sty().mediumBoldText,
                                   children: [
                                     TextSpan(
                                       text: 'Following',
@@ -328,7 +329,7 @@ class PublicProfilePage extends State<PublicProfile>
                                 '${d['user']['bio']}',
                                 maxLines: null,
                                 overflow: TextOverflow.fade,
-                                style: Sty().smallText,
+                                style: Sty().mediumText,
                               ),
                             ],
                           ),
@@ -364,7 +365,7 @@ class PublicProfilePage extends State<PublicProfile>
                               ],
                             ),
                           ),
-                        SizedBox(height: Dim().d12),
+                        SizedBox(height: Dim().d20),
                         // if (d['user']['location'] != null)
                         //   InkWell(
                         //       onTap: () {
@@ -514,114 +515,144 @@ class PublicProfilePage extends State<PublicProfile>
 
   //For Post
   Widget postLayout() {
-    return ListView.separated(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: d['post'].length,
-      itemBuilder: (context, index) {
-        return itemHomeTweet(ctx, d['post'][index], sID, setState, index);
-      },
-      separatorBuilder: (context, index) {
-        return Column(
-          children: [
-            const Divider(
-              color: Color(0xFFFFFFFF),
-            ),
-            SizedBox(
-              height: Dim().d12,
-            ),
-          ],
-        );
-      },
+    return Column(
+      children: [
+        if (d['post'].isEmpty)
+          Center(child: Text('No Post', textAlign: TextAlign.center,style: Sty().mediumText.copyWith(color: Clr().white))),
+        if (d['post'].isNotEmpty)
+        ListView.separated(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: d['post'].length,
+          itemBuilder: (context, index) {
+            return itemHomeTweet(ctx, d['post'][index], sID, setState, index);
+          },
+          separatorBuilder: (context, index) {
+            return Column(
+              children: [
+                const Divider(
+                  color: Color(0xFFFFFFFF),
+                ),
+                SizedBox(
+                  height: Dim().d12,
+                ),
+              ],
+            );
+          },
+        ),
+      ],
     );
   }
 
   //For Portfolio
   Widget portfolioLayout() {
-    return d['user']['has_demat'] == 0
+    return d['user']['has_demat'] == 0 && d['user']['security'].isEmpty
         ? Padding(
-            padding: EdgeInsets.only(bottom: Dim().d100),
+            padding: EdgeInsets.only(
+                bottom: Dim().d100, left: Dim().d56, right: Dim().d56),
             child: ElevatedButton(
                 onPressed: () {
-                  STM().redirect2page(ctx, DematLogin());
+                  STM().redirect2page(ctx, const DematLogin());
                 },
                 style: ElevatedButton.styleFrom(backgroundColor: Clr().yellow),
                 child: Center(
-                  child: Text('Log In Demat Acc',
+                  child: Text('Log-in any demat account',
                       style: Sty().smallText.copyWith(color: Clr().white)),
                 )),
           )
-        : Column(
-            children: [
-              if (holdingList.isNotEmpty)
-                ListView.builder(
-                  itemCount: holdingList.length,
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.only(bottom: Dim().d12),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                if (index == 0)
-                                  textLayout('Holding', Clr().white),
-                                SizedBox(
-                                  height: Dim().d20,
+        : d['user']['has_demat'] == 1 &&
+                d['user']['security'].isNotEmpty &&
+                d['user']['security'][0]['is_login'] == 0
+            ? Padding(
+                padding: EdgeInsets.only(
+                    bottom: Dim().d100, left: Dim().d40, right: Dim().d40),
+                child: ElevatedButton(
+                    onPressed: () {
+                      STM().redirect2page(ctx, const DematLogin());
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Clr().yellow,
+                        padding: EdgeInsets.all(Dim().d12)),
+                    child: Center(
+                      child: Text('Log-in again to your demat account',
+                          textAlign: TextAlign.center,
+                          style: Sty().smallText.copyWith(
+                              color: Clr().white, fontSize: Dim().d16)),
+                    )),
+              )
+            : Column(
+                children: [
+                  if (holdingList.isNotEmpty)
+                    ListView.builder(
+                      itemCount: holdingList.length,
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: Dim().d12),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    if (index == 0)
+                                      textLayout('Holding', Clr().white),
+                                    SizedBox(
+                                      height: Dim().d20,
+                                    ),
+                                    textLayout(
+                                        '${holdingList[index]['tradingsymbol']}',
+                                        Clr().white),
+                                  ],
                                 ),
-                                textLayout(
-                                    '${holdingList[index]['tradingsymbol']}',
-                                    Clr().white),
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: Dim().d8),
-                          Expanded(
-                            flex: 2,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                if (index == 0) textLayout('LTP', Clr().white),
-                                SizedBox(
-                                  height: Dim().d20,
+                              ),
+                              SizedBox(width: Dim().d8),
+                              Expanded(
+                                flex: 2,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    if (index == 0)
+                                      textLayout('LTP', Clr().white),
+                                    SizedBox(
+                                      height: Dim().d20,
+                                    ),
+                                    textLayout(
+                                        '₹ ${holdingList[index]['ltp']}',
+                                        holdingList[index]['pnlpercentage']
+                                                .toString()
+                                                .contains('-')
+                                            ? Clr().red
+                                            : Clr().green),
+                                  ],
                                 ),
-                                textLayout(
-                                    '₹ ${holdingList[index]['ltp']}',
-                                    holdingList[index]['pnlpercentage']
-                                            .toString()
-                                            .contains('-')
-                                        ? Clr().red
-                                        : Clr().green),
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: Dim().d8),
-                          Expanded(
-                            flex: 1,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                if (index == 0) textLayout('PnL', Clr().white),
-                                SizedBox(
-                                  height: Dim().d20,
+                              ),
+                              SizedBox(width: Dim().d8),
+                              Expanded(
+                                flex: 1,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    if (index == 0)
+                                      textLayout('PnL', Clr().white),
+                                    SizedBox(
+                                      height: Dim().d20,
+                                    ),
+                                    textLayout(
+                                        'P/L : ${holdingList[index]['profitandloss']}',
+                                        Clr().white),
+                                  ],
                                 ),
-                                textLayout(
-                                    'P/L : ${holdingList[index]['profitandloss']}',
-                                    Clr().white),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-            ],
-          );
+                        );
+                      },
+                    ),
+                ],
+              );
   }
 
   //For Podcast
@@ -957,15 +988,25 @@ class PublicProfilePage extends State<PublicProfile>
       setState(() {
         holdingList = result['response_data']['data']['holdings'];
       });
+    }
+  }
+
+  void getProfileDemat() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    FormData body = FormData.fromMap({
+      'user_id': sID,
+    });
+    var result =
+        await STM().postWithoutDialog(ctx, 'angel-one-get-profile', body);
+    if (result['response_data']['status'] == true) {
+      setState(() {
+        clientId = result['response_data']['data']['clientcode'];
+        checkLogout = true;
+      });
     } else {
-      // STM().errorDialog(ctx, result['message']);
-      // Fluttertoast.showToast(
-      //     msg: result['message'],
-      //     fontSize: Dim().d24,
-      //     textColor: Clr().red,
-      //     backgroundColor: Clr().white,
-      //     gravity: ToastGravity.CENTER,
-      //     toastLength: Toast.LENGTH_LONG);
+      setState(() {
+        checkLogout = false;
+      });
     }
   }
 

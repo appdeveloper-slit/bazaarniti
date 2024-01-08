@@ -81,7 +81,7 @@ class _profileEditState extends State<profileEdit> {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: bottomNavigation(ctx, 0,setState),
+        bottomNavigationBar: bottomNavigation(ctx, 0, setState),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: Dim().d20),
@@ -287,24 +287,79 @@ class _profileEditState extends State<profileEdit> {
 
   /// portfolio container
   commPort() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text('Show Your Portfolio',
+        Text('Privacy Status',
             style: Sty().mediumText.copyWith(
                 color: Clr().white,
                 fontSize: Dim().d14,
                 fontWeight: FontWeight.w500)),
-        SizedBox(
-          height: Dim().d12,
+        Row(
+          children: [
+            InkWell(
+              onTap: () {
+                setState(() {
+                  widget.detail['user']['is_private'] = 0;
+                  privacyApi();
+                });
+              },
+              child: Container(
+                height: Dim().d32,
+                padding: EdgeInsets.symmetric(horizontal: Dim().d12),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Clr().white),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(Dim().d20),
+                      bottomLeft: Radius.circular(Dim().d20)),
+                  color: widget.detail['user']['is_private'] == 0
+                      ? Clr().successGreen
+                      : Clr().transparent,
+                ),
+                child: Center(child: Text('Public', style: Sty().smallText)),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                setState(() {
+                  widget.detail['user']['is_private'] = 1;
+                  privacyApi();
+                });
+              },
+              child: Container(
+                height: Dim().d32,
+                padding: EdgeInsets.symmetric(horizontal: Dim().d12),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Clr().white),
+                    color: widget.detail['user']['is_private'] == 1
+                        ? Clr().red
+                        : Clr().transparent,
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(Dim().d20),
+                        bottomRight: Radius.circular(Dim().d20))),
+                child: Center(child: Text('Private', style: Sty().smallText)),
+              ),
+            ),
+          ],
         ),
-        Text('Show Your Returns',
-            style: Sty().mediumText.copyWith(
-                color: Clr().white,
-                fontSize: Dim().d14,
-                fontWeight: FontWeight.w500)),
       ],
     );
+  }
+
+  /// change privacy status
+  void privacyApi() async {
+    FormData body = FormData.fromMap({
+      'user_id': sID,
+    });
+    var result =
+        await STM().postWithoutDialog(ctx, 'change-privacy-status', body);
+    var success = result['success'];
+    var message = result['message'];
+    if (success) {
+      STM().displayToast(message);
+    } else {
+      STM().errorDialog(ctx, message);
+    }
   }
 
   /// Others Information

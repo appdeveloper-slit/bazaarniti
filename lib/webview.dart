@@ -87,7 +87,7 @@ class WebViewPageState extends State<WebViewPage> {
         await STM().post(ctx, Str().processing, 'angel-one-token', body);
     if (result['response_data']['status'] == true) {
       STM().successDialogWithAffinity(
-          ctx, result['response_data']['message'], Home());
+          ctx, 'Demat Account Log-In Successfully', Home());
     } else {
       STM().redirect2page(ctx, Demat());
       Fluttertoast.showToast(

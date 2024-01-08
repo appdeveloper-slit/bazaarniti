@@ -123,9 +123,6 @@ class anotherProfilePage extends State<anotherProfile>
               ),
               child: Column(
                 children: [
-                  SizedBox(
-                    height: Dim().d16,
-                  ),
                   Stack(
                     children: [
                       Container(
@@ -142,8 +139,8 @@ class anotherProfilePage extends State<anotherProfile>
                           ),
                           child: STM().imageView(
                             '${v['image']}',
-                            width: Dim().d120,
-                            height: Dim().d120,
+                            width: Dim().d100,
+                            height: Dim().d100,
                           ),
                         ),
                       ),
@@ -167,14 +164,14 @@ class anotherProfilePage extends State<anotherProfile>
                   ),
                   Text(
                     '${v['name']}',
-                    style: Sty().extraLargeText,
+                    style: Sty().mediumBoldText,
                   ),
                   Text(
                     '@${v['username']}',
-                    style: Sty().mediumBoldText,
+                    style: Sty().smallText,
                   ),
                   SizedBox(
-                    height: Dim().d16,
+                    height: Dim().d12,
                   ),
                   Wrap(
                     children: [
@@ -182,7 +179,7 @@ class anotherProfilePage extends State<anotherProfile>
                         textAlign: TextAlign.center,
                         text: TextSpan(
                           text: '${d['posts']}\n',
-                          style: Sty().extraLargeText,
+                          style: Sty().mediumBoldText,
                           children: [
                             TextSpan(
                               text: 'Posts',
@@ -209,7 +206,7 @@ class anotherProfilePage extends State<anotherProfile>
                           textAlign: TextAlign.center,
                           text: TextSpan(
                             text: '${d['followers']}\n',
-                            style: Sty().extraLargeText,
+                            style: Sty().mediumBoldText,
                             children: [
                               TextSpan(
                                 text: 'Followers',
@@ -236,7 +233,7 @@ class anotherProfilePage extends State<anotherProfile>
                           textAlign: TextAlign.center,
                           text: TextSpan(
                             text: '${d['following']}\n',
-                            style: Sty().extraLargeText,
+                            style: Sty().mediumBoldText,
                             children: [
                               TextSpan(
                                 text: 'Following',
@@ -382,7 +379,7 @@ class anotherProfilePage extends State<anotherProfile>
                   SizedBox(
                     height: Dim().d16,
                   ),
-                  Align(
+                 d['user']['is_private'] == 1 ? Text('This account is private',style: Sty().mediumText,) : Align(
                     alignment: Alignment.centerLeft,
                     child: TabBar(
                       onTap: (v) {
@@ -408,7 +405,7 @@ class anotherProfilePage extends State<anotherProfile>
                   SizedBox(
                     height: Dim().d12,
                   ),
-                  if (tabCtrl!.index == 0) postLayout(),
+                  if (tabCtrl!.index == 0)  d['user']['is_private'] == 1 ? Container() : postLayout(),
                   if (tabCtrl!.index == 1) portfolioLayout(),
                   if (tabCtrl!.index == 2) podcastLayout(),
                 ],
@@ -431,25 +428,32 @@ class anotherProfilePage extends State<anotherProfile>
 
   //For Post
   Widget postLayout() {
-    return ListView.separated(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: d['post'].length,
-      itemBuilder: (context, index) {
-        return itemHomeTweet(ctx, d['post'][index], sID, setState, index);
-      },
-      separatorBuilder: (context, index) {
-        return Column(
-          children: [
-            const Divider(
-              color: Color(0xFFFFFFFF),
-            ),
-            SizedBox(
-              height: Dim().d12,
-            ),
-          ],
-        );
-      },
+    return Column(
+      children: [
+        if (d['post'].isEmpty)
+          Text('No Post', style: Sty().mediumText.copyWith(color: Clr().white)),
+        if (d['post'].isNotEmpty)
+          ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: d['post'].length,
+            itemBuilder: (context, index) {
+              return itemHomeTweet(ctx, d['post'][index], sID, setState, index);
+            },
+            separatorBuilder: (context, index) {
+              return Column(
+                children: [
+                  const Divider(
+                    color: Color(0xFFFFFFFF),
+                  ),
+                  SizedBox(
+                    height: Dim().d12,
+                  ),
+                ],
+              );
+            },
+          ),
+      ],
     );
   }
 
@@ -599,13 +603,21 @@ class anotherProfilePage extends State<anotherProfile>
     //         ),
     //       )),
     // );
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: d['podcast'].length,
-      itemBuilder: (context, index) {
-        return itemProfilePodcast(ctx, d['podcast'][index]);
-      },
+    return Column(
+      children: [
+        if (d['podcast'].isEmpty)
+          Text('No Podcast Found',
+              style: Sty().mediumText.copyWith(color: Clr().white)),
+        if (d['podcast'].isNotEmpty)
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: d['podcast'].length,
+            itemBuilder: (context, index) {
+              return itemProfilePodcast(ctx, d['podcast'][index]);
+            },
+          ),
+      ],
     );
   }
 
