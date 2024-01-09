@@ -95,12 +95,10 @@ class HomePage extends State<Home> {
       STM().finishAffinity(ctx, Login());
     }
   }
-
-
-
   void eventLink(link) async {
     setState(() {
       var uri = Uri.parse(link);
+      print(uri);
       STM().redirect2page(
           ctx,
           TweetDetail(

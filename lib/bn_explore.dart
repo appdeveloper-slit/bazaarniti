@@ -336,7 +336,7 @@ class ExplorePage extends State<Explore> with TickerProviderStateMixin {
             physics: const BouncingScrollPhysics(),
             itemCount: peopletofollow.length,
             itemBuilder: (context, index) {
-              return itemPeopleToFollow(ctx, peopletofollow[index]);
+              return itemPeopleToFollow(ctx, peopletofollow[index],setState);
             },
             separatorBuilder: (context, index) {
               return Column(

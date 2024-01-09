@@ -41,6 +41,7 @@
                 <!-- Accepts URIs that begin with YOUR_SCHEME://YOUR_HOST -->
                 <data
                     android:host="lawmakers.co.in"
+                    android:pathPrefix="/bazaarniti/deeplink"
                     android:scheme="https" />
             </intent-filter>
 
@@ -53,6 +54,7 @@
                 <!-- Accepts URIs that begin with https://YOUR_HOST -->
                 <data
                     android:host="lawmakers.co.in"
+                    android:pathPrefix="/bazaarniti/deeplink"
                     android:scheme="https" />
             </intent-filter>
         </activity>

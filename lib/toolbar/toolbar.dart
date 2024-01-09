@@ -190,7 +190,9 @@ PreferredSizeWidget toolbarProfile(ctx, title, {logout, clentid}) {
                     value: 'option_2',
                     child: Text('Logout Demat'),
                   )
-                : const PopupMenuItem<String>(
+                :  const PopupMenuItem<String>(
+                    padding: EdgeInsets.zero,
+                    height: 0,
                     value: '',
                     child: Text(''),
                   ),

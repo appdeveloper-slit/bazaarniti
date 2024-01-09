@@ -84,18 +84,19 @@ class _PlayerButtonsState extends State<PlayerButtons> {
         child: const CircularProgressIndicator(),
       );
     } else if (widget.audioPlayer.playing != true) {
-      return InkWell(
-        onTap: widget.audioPlayer.play,
-        child: Container(
-            decoration: BoxDecoration(
-              color: Clr().yellow,
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-          Icons.play_arrow,
-          size: Dim().d32,
-          color: Clr().white,
-        )),
+      return Container(
+        decoration: BoxDecoration(
+          color: Clr().yellow,
+          shape: BoxShape.circle,
+        ),
+        child: IconButton(
+          icon: Icon(
+            Icons.play_arrow,
+            color: Clr().white,
+          ),
+          iconSize: 46.0,
+          onPressed: widget.audioPlayer.play,
+        ),
       );
     } else if (processingState != ProcessingState.completed) {
       return Container(

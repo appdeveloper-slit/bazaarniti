@@ -409,7 +409,7 @@ Widget itemHomeTweet(ctx, v, sID, setState, index) {
                             TextButton(
                               onPressed: () {
                                 Share.share(
-                                    '*${v['user']['name']}*\n${v['tweet'].toString().replaceRange(30, v['tweet'].toString().length, '......')}\n\n  https://lawmakers.co.in/?id=${v['id']}',
+                                    '*${v['user']['name']}*\n${v['tweet'].toString().replaceRange(30, v['tweet'].toString().length, '......')}\n\n  https://lawmakers.co.in/bazaarniti/deeplink/?playmarket=true&id=${v['id']}',
                                     subject:
                                         'Click on deep link and go to this page!!!!');
                               },

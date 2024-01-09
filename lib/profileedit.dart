@@ -300,7 +300,7 @@ class _profileEditState extends State<profileEdit> {
             InkWell(
               onTap: () {
                 setState(() {
-                  widget.detail['user']['is_private'] = 0;
+                  widget.detail['user']['is_private'] = false;
                   privacyApi();
                 });
               },
@@ -312,7 +312,7 @@ class _profileEditState extends State<profileEdit> {
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(Dim().d20),
                       bottomLeft: Radius.circular(Dim().d20)),
-                  color: widget.detail['user']['is_private'] == 0
+                  color: widget.detail['user']['is_private'] == false
                       ? Clr().successGreen
                       : Clr().transparent,
                 ),
@@ -322,7 +322,7 @@ class _profileEditState extends State<profileEdit> {
             InkWell(
               onTap: () {
                 setState(() {
-                  widget.detail['user']['is_private'] = 1;
+                  widget.detail['user']['is_private'] = true;
                   privacyApi();
                 });
               },
@@ -331,7 +331,7 @@ class _profileEditState extends State<profileEdit> {
                 padding: EdgeInsets.symmetric(horizontal: Dim().d12),
                 decoration: BoxDecoration(
                     border: Border.all(color: Clr().white),
-                    color: widget.detail['user']['is_private'] == 1
+                    color: widget.detail['user']['is_private'] == true
                         ? Clr().red
                         : Clr().transparent,
                     borderRadius: BorderRadius.only(

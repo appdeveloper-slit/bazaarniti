@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:bazaarniti/adapter/playbutton.dart';
 import 'package:bazaarniti/manager/app_url.dart';
+import 'package:bazaarniti/values/strings.dart';
 import 'package:http/http.dart' as http;
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
@@ -416,7 +417,7 @@ class EpisodeListPage extends State<EpisodeList> {
       'podcast': v['id'],
       'language': _selectIndex,
     });
-    var result = await STM().postWithoutDialog(ctx,'podcast-episode-add', body);
+    var result = await STM().post(ctx,Str().creating,'podcast-episode-add', body);
     if (result['success'] == true) {
       STM().successDialogWithReplace(
           ctx, result['message'], PublicProfile(widget.details));

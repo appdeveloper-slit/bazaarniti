@@ -18,6 +18,7 @@ class Str {
   String invalidAddress = "Please enter a valid address";
 
   String sendingOtp = "Sending OTP …";
+  String creating = "Creating …";
   String verifying = "Verifying …";
   String uploading = "Uploading …";
   String loading = "Loading …";
